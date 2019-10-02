@@ -6,30 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        td {
+            width: 150px;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        var flag = "";
+        function setPoint(obj) {
+            if (obj.innerText != "_") return;
+            if (flag == "x") {
+                obj.innerText = 'o'
+                flag = "o";
+            }
+            else {
+                obj.innerText = 'x'
+                flag = "x";
+            }
+        }       
+    </script>
+
 </head>
 
-<body>
-    <table id='OOXX' border="2" style="width: 80px;height: 80px;">
+<body style="font-size: 80px">
+    <table id='OOXX' border="2" style="width: 300px;height: 300px">
         <caption>
             <h4>OOXX</h4>
         </caption>
-        <thead>
-            <tr>
-                <th>O</th>
-                <th>X</th>
-                <th>O</th>
-            </tr>
-        </thead>
         <tbody>
             <tr>
-                <td>X</td>
-                <td>O</td>
-                <td>X</td>
+                <td onclick="setPoint(this)">_</td>
+                <td onclick="setPoint(this)">_</td>
+                <td onclick="setPoint(this)">_</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td onclick="setPoint(this)">_</td>
+                <td onclick="setPoint(this)">_</td>
+                <td onclick="setPoint(this)">_</td>
             </tr>
             <tr>
-                <td>O</td>
-                <td>X</td>
-                <td>O</td>
+                <td onclick="setPoint(this)">_</td>
+                <td onclick="setPoint(this)">_</td>
+                <td onclick="setPoint(this)">_</td>
             </tr>
 
         </tbody>
