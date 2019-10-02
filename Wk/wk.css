@@ -1,0 +1,92 @@
+p {
+    font-size: 15px;
+    line-height: 2.5em;
+  }
+ 
+  a:link {
+    text-decoration: none;
+  }
+ 
+  a:visited {
+    color: red;
+  }
+ 
+  a:hover {
+    color: red;
+    text-decoration: underline;
+  }
+ 
+  a:active {
+    color: yellow;
+  }
+  
+  #item1 li {
+   float:left; 
+   margin-left:50px;
+ }
+ 
+ 
+ #item2 {
+   list-style-image: url('https://img.icons8.com/android/24/000000/small-axe.png');
+ }
+ 
+ #ddd2 {
+   border: 1px red solid;
+ }
+ 
+ #div2 {
+   border-width: 4px;
+   border-color: blue;
+   border-style: dotted;
+ 
+   border-left: 1px;
+   border-left: 2px dotted;
+   border-left: medium dashed green;
+   
+   border-right: 1px;
+   border-right: 2px dotted;
+   border-right: medium double red;
+   
+   border-bottom: 1px;
+   border-bottom: 2px dotted;
+   border-bottom: medium ridge yellow;
+ }
+ 
+  #a12{
+   border: 1px red solid;
+   border-radius: 5px 20px 35px 40px;
+ 
+ }
+ 
+ #div21 {
+   border: 1px red solid;
+   border-radius: 5px 20px 35px 40px;
+   border-width: 3px;
+   border-color: blue;
+   border-style: dotted;
+ 
+   border-left: 1px;
+   border-left: 2px dotted;
+   border-left: medium dashed green;
+   
+   border-right: 1px;
+   border-right: 2px dotted;
+   border-right: medium double red;
+   
+   border-bottom: 1px;
+   border-bottom: 2px dotted;
+   border-bottom: medium ridge yellow;
+ }
+ 
+ img {
+   width: 300px;
+   border-radius: 10px;
+   float: right;
+   margin: 10px;
+ }
+ 
+ #p1 {
+   font-size: 25px;
+   line-height: 1.5em;
+ }
+ 
