@@ -1,11 +1,33 @@
+body{
+    background-color: darkgray;
+}
+
 .Tab{
     background-color: red;
     width: 100%;
-    height: 30px;
-    float: left;
+    height: 25px;
+    margin: 0px auto
 }
-.d1{
+.d1 {
     background-color:orangered; 
     width: 100%; 
     height: 150px;
+}
+
+.part1{
+    margin: 0px auto;
+}
+
+#part1left{
+    float: left;
+    padding: 5px;
+}
+#partright{
+    float: right;
+}
+
+
+#part1bottom img{
+    border-radius: 50%;
+    margin:0 auto;
 }
