@@ -1,40 +1,64 @@
-body{
+body {
     background-color: darkgray;
 }
 
-.Tab{
+.Tab {
     background-color: red;
     width: 100%;
     height: 25px;
 }
+
 .d1 {
-    background-color:orangered; 
-    width: 100%; 
+    background-color: orangered;
+    width: 100%;
     height: 150px;
 }
 
+.manu{
+    background-color: white;
+    margin: 10px;
+}
 .flex-wrapper {
     display: flex;
     background-color: white;
+
 }
-  
-  .item {
+
+.item {
     flex-grow: 3;
-  }
-  .right{
+    padding: 1px;
+}
+
+.right {
     flex-grow: 2;
-  }
-
-
-.bbbbb{
-    background-color: white;
 }
-.bottom img{
+
+
+.bbbbb {
+    background-color: white;
+    margin: 10px;
+}
+
+.bottom img {
     border-radius: 50%;
+    margin-left: 60px;
 }
 
-
-#part2{
-
+#part2 {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 0px;
     background-color: white;
+}
+#part2dowm img{
+    margin-left: 20px;    
+}
+#part2dowm p{
+    margin-left: 80px;   
+}
+.flex-part2down{
+    display: flex;
+}
+.flex-part2down > div{
+    flex-grow: 1;
 }
