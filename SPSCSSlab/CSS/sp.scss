@@ -28,19 +28,35 @@ body {
         }
     }
 }
-.bottom img {
-    border-radius: 50%;
-    margin-left: 60px;
+
+#part1 {
+    background-color: white;
+    img {
+        margin-top: 20px;
+        margin-left: 5px;
+        border-radius: 50%
+    }
+    p {
+        margin-left: 20px;
+    }
 }
+.bottom {
+    display: flex;
+    margin-left: 60px;
+    div {
+        flex-grow: 1;
+    }
+}
+
 
 #part2 {
     margin-left: 10px;
     margin-right: 10px;
     background-color: white;
     img {
+        margin-top: 20px;
         margin-left: 20px;
     }
-
     p {
         margin-left: 80px;
     }
