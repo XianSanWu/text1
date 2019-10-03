@@ -19,18 +19,15 @@ body {
 
 .manu {
     background-color: white;
-    margin: 10px;
-
+    margin:10px;
     .flex-wrapper {
         display: flex;
-
         .item {
             flex-grow: 3;
             padding: 1px;
         }
     }
 }
-
 .bottom img {
     border-radius: 50%;
     margin-left: 60px;
@@ -39,9 +36,7 @@ body {
 #part2 {
     margin-left: 10px;
     margin-right: 10px;
-    margin-top: 0px;
     background-color: white;
-
     img {
         margin-left: 20px;
     }
@@ -53,7 +48,7 @@ body {
 
 .flex-part2down {
     display: flex;
-
+    margin-left: 100px;
     div {
         flex-grow: 1;
     }
