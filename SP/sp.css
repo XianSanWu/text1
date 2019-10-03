@@ -6,7 +6,6 @@ body{
     background-color: red;
     width: 100%;
     height: 25px;
-    margin: 0px auto
 }
 .d1 {
     background-color:orangered; 
@@ -14,24 +13,27 @@ body{
     height: 150px;
 }
 
-.part1{
+.flex-wrapper {
+    display: flex;
     background-color: white;
-
 }
+  
+  .item {
+    flex-grow: 3;
+  }
+  .right{
+    flex-grow: 2;
+  }
 
-#part1left{
-    float: left;
-    padding: 5px;
+
+.bbbbb{
+    background-color: white;
 }
-#partright{
-    float: right;
-}
-
-
-#part1bottom img{
+.bottom img{
     border-radius: 50%;
-    margin:0 auto;
 }
+
+
 #part2{
 
     background-color: white;
