@@ -15,7 +15,8 @@ body{
 }
 
 .part1{
-    margin: 0px auto;
+    background-color: white;
+
 }
 
 #part1left{
@@ -30,4 +31,8 @@ body{
 #part1bottom img{
     border-radius: 50%;
     margin:0 auto;
+}
+#part2{
+
+    background-color: white;
 }
