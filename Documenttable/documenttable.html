@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>資料填寫表</title>
+</head>
+
+<body>
+    <form action="http://isbaas.azurewebsites.net/WebForms/Form2Mail.aspx?mailto=ztex11020676522@gmail.com&redirect=http://www.google.com" method="POST">
+
+        <fieldset style="border-radius: 10px">
+            <legend>個人資料--必填</legend>
+            <div>
+                <label>姓名：</label>
+                <input type="text" placeholder="請輸入姓名" value="" id='fristName' name="fristName">
+                <br />
+                <label>密碼：</label>
+                <input type="password" placeholder="請輸入密碼" value="" id='fristPax' name="fristPax">
+                <br />
+                <label>性別：</label>
+                <input type="radio" name="gender" value="男">男生
+                <input type="radio" name="gender" value="女">女生
+                <br />
+                <label>婚姻：</label>
+                <input type="radio" name="marr" value="已結婚">已結婚
+                <input type="radio" name="marr" value="未結婚">未結婚
+            </div>
+        </fieldset>
+
+        <fieldset style="border-radius: 10px">
+            <legend>個人資料--興趣</legend>
+            <div>
+                <label>興趣：</label>
+                <input type="checkbox" id='CH1' name="hop">音樂
+                <input type="checkbox" id='CH2' name="hop">運動
+                <input type="checkbox" id='CH3' name="hop">閱讀
+                <input type="checkbox" id='CH4' name="hop">電影
+                <br />
+                <label>專長</label>
+                <textarea id="fieldMultiLineText" cols="40" rows="5"></textarea>
+            </div>
+        </fieldset>
+
+        <fieldset style="border-radius: 10px">
+            <legend>個人資料--地址</legend>
+            <div>
+                <label>郵遞區號：</label>
+                <input type="text" placeholder="請輸入區號" value="" id='Addr' name="Addr">
+                <br />
+                <select name="city">
+                    <option value="Taipei">台北</option>
+                    <option value="New north" selected>新北</option>
+                    <option value="Kaohsiung">高雄</option>
+                    <option value="Pingtung">屏東</option>
+                </select>
+                <br />
+                <label>地址：</label>
+                <input type="text" placeholder="請輸入地址" value="" id='address' name="Address">
+            </div>
+        </fieldset>
+
+        <input type="reset" value="清除資料">
+        <input type="submit" value="送出">
+    </form>
+</body>
+
+</html>
