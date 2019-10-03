@@ -12,7 +12,11 @@ body {
     background-color: orangered;
     width: 100%;
     height: 150px;
+    font-size: 40px;
+    color: whitesmoke;
+    position: relative;
 }
+
 
 .manu{
     background-color: white;
