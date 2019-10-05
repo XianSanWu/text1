@@ -48,12 +48,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card bg-info text-white">
-                            <span class="card-header">
-                                個人資料--必填
-                            </span>
+                        <div class="card-header bg-info text-white">
+                            個人資料--必填
                         </div>
-                        <span class="card-body">
+                        <div class="card-body">
                             姓名：
                             <input class="form-control" type="text" placeholder="請輸入姓名" value="" id="fristName"
                                 name="fristName">
@@ -69,15 +67,32 @@
                             婚姻：
                             <input type="radio" name="marry" value="已結婚">已結婚
                             <input type="radio" name="marry" value="未結婚">未結婚
-                        </span>
-                    </div>
-                    <div class="card">
-                        <div class="card bg-info text-white">
-                            <span class="card-header">
-                                個人資料--地址
-                            </span>
                         </div>
-                        <span class="card-body">郵遞區號：
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            個人資料--興趣
+                        </div>
+                        <div class="card-body">興趣：
+                            <input type="checkbox" id='CH1' name="hobby">音樂
+                            <input type="checkbox" id='CH2' name="hobby">運動
+                            <input type="checkbox" id='CH3' name="hobby">閱讀
+                            <input type="checkbox" id='CH4' name="hobby">電影
+                            <br />
+                            專長：<textarea id="fieldMultiLineText" cols="40" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            個人資料--地址
+                        </div>
+                        <div class="card-body">郵遞區號：
                             <input class="form-control" type="text" maxlength="5" placeholder="請輸入區號(5位)" id='Addr'
                                 name="Addr">
                             <br />
@@ -106,27 +121,10 @@
                             </select>
                             <br />
                             地址：<input class="form-control" type="text" placeholder="請輸入地址" id='address' name="Address">
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card bg-info text-white">
-                            <span class="card-header">
-                                個人資料--興趣
-                            </span>
                         </div>
-                        <span class="card-body">興趣：
-                            <input type="checkbox" id='CH1' name="hobby">音樂
-                            <input type="checkbox" id='CH2' name="hobby">運動
-                            <input type="checkbox" id='CH3' name="hobby">閱讀
-                            <input type="checkbox" id='CH4' name="hobby">電影
-                            <br />
-                            專長：<textarea id="fieldMultiLineText" cols="40" rows="5"></textarea>
-                        </span>
-
                     </div>
                 </div>
+
             </div>
 
             <input type="checkbox" id="MustCheck" name="MustCheck">同意你隨便用個資...
