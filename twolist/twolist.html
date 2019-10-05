@@ -55,11 +55,12 @@
                         </div>
                         <span class="card-body">
                             姓名：
-                            <input class="form-control" type="text" placeholder="請輸入姓名" value="" id="fristName" name="fristName">
+                            <input class="form-control" type="text" placeholder="請輸入姓名" value="" id="fristName"
+                                name="fristName">
                             <br />
                             密碼：
-                            <input class="form-control" type="password" maxlength="8" placeholder="請輸入密碼(8位)" value="" id='fristPax'
-                                name="fristPax">
+                            <input class="form-control" type="password" maxlength="8" placeholder="請輸入密碼(8位)" value=""
+                                id='fristPax' name="fristPax">
                             <br />
                             性別：
                             <input type="radio" name="gender" value="男">男生
@@ -71,24 +72,42 @@
                         </span>
                     </div>
                     <div class="card">
-                            <div class="card bg-info text-white">
-                                <span class="card-header">
-                                    個人資料--地址
-                                </span>
-                            </div>
-                            <span class="card-body">郵遞區號：
-                                <input class="form-control" type="text" maxlength="5" placeholder="請輸入區號(5位)" id='Addr' name="Addr">
-                                <br />
-                                <select name="city">
-                                    <option value="Taipei">台北</option>
-                                    <option value="NewNorth" selected>新北</option>
-                                    <option value="Kaohsiung">高雄</option>
-                                    <option value="Pingtung">屏東</option>
-                                </select>
-                                <br />
-                                地址：<input class="form-control" type="text" placeholder="請輸入地址" id='address' name="Address">
+                        <div class="card bg-info text-white">
+                            <span class="card-header">
+                                個人資料--地址
                             </span>
                         </div>
+                        <span class="card-body">郵遞區號：
+                            <input class="form-control" type="text" maxlength="5" placeholder="請輸入區號(5位)" id='Addr'
+                                name="Addr">
+                            <br />
+                            <select name="formcity">
+                                <option value="keelung">基隆市</option>
+                                <option value="taipeicity" selected>台北市</option>
+                                <option value="taipei">新北市</option>
+                                <option value="yilan">宜蘭縣</option>
+                                <option value="taoyuan">桃園市</option>
+                                <option value="hsinchucity">新竹市</option>
+                                <option value="hsinchu">新竹縣</option>
+                                <option value="miaoli">苗栗縣</option>
+                                <option value="taichun">臺中市</option>
+                                <option value="changhua">彰化縣</option>
+                                <option value="nantou">南投縣</option>
+                                <option value="yunlin">雲林縣</option>
+                                <option value="chiayicity">嘉義市</option>
+                                <option value="chiayi">嘉義縣</option>
+                                <option value="tainan">臺南市</option>
+                                <option value="kaohsiung">高雄市</option>
+                                <option value="pingtung">屏東縣</option>
+                                <option value="taitung">臺東縣</option>
+                                <option value="hualien">花蓮縣</option>
+                                <option value="penghu">澎湖縣</option>
+                                <option value="kinmen">金門縣</option>
+                            </select>
+                            <br />
+                            地址：<input class="form-control" type="text" placeholder="請輸入地址" id='address' name="Address">
+                        </span>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card">
@@ -109,14 +128,14 @@
                     </div>
                 </div>
             </div>
-                    
+
             <input type="checkbox" id="MustCheck" name="MustCheck">同意你隨便用個資...
             <br />
             <input class="btn btn-primary" type="reset" value="清除資料">
             <input class="btn btn-primary" type="submit" value="送出">
-                
 
-            
+
+
         </div>
     </form>
 </body>
