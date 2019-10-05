@@ -66,16 +66,6 @@
     }
 
     .menu-btn {
-        padding: 4px 12px;
-        font: 20px;
-        background-color: #ffffff;
-        border: 1px solid #dfdfdf;
-        border-radius: 5px;
-        color: #838383;
-        display: none;
-    }
-
-    .menu-btn {
         display: block;
     }
 
@@ -92,7 +82,18 @@
     }
 }
 
-@media screen and (max-width:640px) {}
+@media screen and (max-width:640px) {
+    .container{
+        width: 100%;
+    }
+    .story-img{
+        margin: 0px auto;
+        width: 90%;
+    }
+    .sing-from{
+        width: 100%;
+    }
+}
 
 body {
     font-family: 'Noto Sans TC', sans-serif;
@@ -154,14 +155,14 @@ nav {
 .logo {
     font-size: 20px;
     margin: 0 16px 0 0;
-    padding: 5px 0;
+    padding: 5px 0px;
 }
 
 .banner-text {
     text-align: center;
 
     h2 {
-        font-size: 56pxl
+        font-size: 56px;
     }
 
     h4 {
@@ -174,7 +175,7 @@ nav {
         padding: 10px 20px;
         font-size: 16px;
         color: white;
-        border-radius: 10px;
+        border-radius: 5px;
     }
 }
 
@@ -191,7 +192,7 @@ nav {
 
 .item {
     padding: 0 15px;
-    width: (100%3);
+    width: (100%/3);
 
     &>div {
         display: flex;
@@ -200,10 +201,10 @@ nav {
     }
 
     &>div:hover {
-        box-shadow: 0.2px 12px 2px #99a6b14a;
+        box-shadow: 0 2px 12px 2px #99a6b14a;
     }
 
-    &div {
+    &>div {
         border: 1px solid #dfdfdf;
     }
 
@@ -313,6 +314,7 @@ feature-content {
         font-size: 16px;
         border: 1px solid #ced4da;
         border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
         margin-right: -1px;
     }
 
