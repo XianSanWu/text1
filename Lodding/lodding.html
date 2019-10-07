@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <title>Document</title>
+
+    <script>
+        function getmodal() {
+            var isChecked =  document.getElementById('MustCheck').checked;
+            //如果是，就return true
+            if (isChecked) {
+                
+            };
+            //否則就...    
+            $('#myModal').modal();
+        }
+    </script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-info">登入系統</div>
+                    <div class="card-body">
+                        <div class="row justify-content-end"><a href="registered.html" class="btn btn-danger "
+                                style="margin:5px">註冊新帳號</a></div>
+                        姓名：
+                        <input class="form-control" type="text" placeholder="請輸入姓名" value="" id="fristName"
+                            name="fristName">
+                        <br />
+                        密碼：
+                        <input class="form-control" type="password" maxlength="8" placeholder="請輸入密碼(8位)" value=""
+                            id='fristPax' name="fristPax">
+                        <br />
+
+                    </div>
+                    <div style="margin:10px">
+                        <input type="checkbox" id="MustCheck" name="MustCheck">同意你隨便用個資...
+                    </div>
+                    <button class="btn btn-info" style="margin:10px" onclick="getmodal()">登陸</button>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div id="modal-body-text" class="modal-body">
+                    請勾選同意.....
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
