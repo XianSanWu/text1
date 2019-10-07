@@ -28,6 +28,13 @@
         });    
         });
         
+        $(document).ready(function () {
+            $('#CheckAll').click(
+                function () {
+                    var check = $('#CheckAll').prop("checked");
+                    $('#CheckBoxGroup input').prop("checked", check);
+                });
+        });
     </script>
 
     <title>Document</title>
@@ -47,6 +54,22 @@
             <span id="result"></span>
         </div>
     </div>
+    <hr/>
+    <div class="row" style="margin:10px">
+            <div class="col-12">
+                <input id="CheckAll" type="checkbox" />勾選全部
+                <div id="CheckBoxGroup">
+                    <input type="checkbox" />項目1
+                    <input type="checkbox" />項目2
+                    <input type="checkbox" />項目3
+                    <input type="checkbox" />項目4
+                    <input type="checkbox" />項目5
+                    <input type="checkbox" />項目6
+                    <input type="checkbox" />項目7
+                    <input type="checkbox" />項目8
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>
