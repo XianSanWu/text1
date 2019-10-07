@@ -19,10 +19,12 @@
             var isChecked =  document.getElementById('MustCheck').checked;
             //如果是，就return true
             if (isChecked) {
-                
-            };
-            //否則就...    
-            $('#myModal').modal();
+                document.getElementById('modal-body-text').innerHTML="登陸成功";
+                $('#myModal').modal();
+            }
+            else{document.getElementById('modal-body-text').innerHTML="請勾選同意"; 
+            $('#myModal').modal();} 
+            
         }
     </script>
 
@@ -64,13 +66,13 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
+                    <h4 class="modal-title">!!!訊息!!!</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
-                <div id="modal-body-text" class="modal-body">
-                    請勾選同意.....
+                <div class="modal-body">
+                    <span id="modal-body-text"></span>
                 </div>
 
                 <!-- Modal footer -->
