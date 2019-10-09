@@ -39,33 +39,36 @@
         }
 
         function startTime() {
-            isstart = false;
+            isstop = false;
             showTime();
         }
 
         function stopTime() {
-            isstart = true;
+            isstop = true;
         }
 
-        var isstart = false;
+        var isstop = false;
+
         function showTime() {
-            if (isstart == false) setTimeout(showTime, 1000);
+            //if (isstop == false) setTimeout(showTime, 1000);
+            if (isstop == true) return;
             var dt = new Date();
             document.getElementById('text').innerText = dt.Format("yyyy/MM/dd HH:mm:ss");
+            setTimeout(showTime, 1000);
         }
 
         $(document).ready(function () {
             $('#startTime').click(startTime);
             $('#stopTime').click(stopTime);
         });
-        
     </script>
     <style>
         @font-face {
             font-family: showtext;
             src: url('digital-7.ttf');
         }
-        button{
+
+        button {
             width: 100px;
         }
     </style>
