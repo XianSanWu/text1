@@ -405,15 +405,6 @@ template {
     padding: 0 20px;
   }
   .menu-btn {
-    padding: 4px 12px;
-    font: 20px;
-    background-color: #ffffff;
-    border: 1px solid #dfdfdf;
-    border-radius: 5px;
-    color: #838383;
-    display: none;
-  }
-  .menu-btn {
     display: block;
   }
   .banner {
@@ -427,6 +418,19 @@ template {
   }
   .footer-content ul {
     margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .container {
+    width: 100%;
+  }
+  .story-img {
+    margin: 0px auto;
+    width: 90%;
+  }
+  .sing-from {
+    width: 100%;
   }
 }
 
@@ -497,7 +501,7 @@ nav {
 .logo {
   font-size: 20px;
   margin: 0 16px 0 0;
-  padding: 5px 0;
+  padding: 5px 0px;
 }
 
 .banner-text {
@@ -505,7 +509,7 @@ nav {
 }
 
 .banner-text h2 {
-  font-size: 56pxl;
+  font-size: 56px;
 }
 
 .banner-text h4 {
@@ -518,7 +522,7 @@ nav {
   padding: 10px 20px;
   font-size: 16px;
   color: white;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .banner {
@@ -538,7 +542,7 @@ nav {
 
 .item {
   padding: 0 15px;
-  width: 100% 3;
+  width: 33.33333%;
 }
 
 .item > div {
@@ -553,11 +557,11 @@ nav {
 }
 
 .item > div:hover {
-  -webkit-box-shadow: 0.2px 12px 2px #99a6b14a;
-          box-shadow: 0.2px 12px 2px #99a6b14a;
+  -webkit-box-shadow: 0 2px 12px 2px #99a6b14a;
+          box-shadow: 0 2px 12px 2px #99a6b14a;
 }
 
-.itemdiv {
+.item > div {
   border: 1px solid #dfdfdf;
 }
 
@@ -677,6 +681,7 @@ feature-content p {
   font-size: 16px;
   border: 1px solid #ced4da;
   border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
   margin-right: -1px;
 }
 
