@@ -5,25 +5,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- bootstrap 4.3.1 -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <title>打字</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <title>練習</title>
     <script>
-    
-    
-    </script>
+        function Showans() {
+            var formula = document.getElementById('inputarea').value;
+            var input = eval(formula);
+            return document.getElementById('result').innerText = input;
+        }
 
+        function Btnclick() {
+            Showans();
+        }
+    </script>
+    <link type="text/css" rel="stylesheet" charset="UTF-8"
+        href="https://translate.googleapis.com/translate_static/css/translateelement.css">
 </head>
 
 <body>
-    <textarea id="fieldMultiLineText" cols="40" rows="5"></textarea>
-    <br />
-    <button id="res" class="btn btn-outline-info">運算</button>
-    <br />
-    <label id="show">結果</label>
+    <form style="margin: 10%">
+        <div class="formgroup ">
+            <label>
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">運算式</font>
+                </font>
+            </label>
+
+        </div>
+        <div class="formgroup">
+            <textarea class="inputarea" id="inputarea" rows="4"></textarea>
+        </div>
+        <div class="formgroup">
+            <button type="button" class="btn btn-primary" onclick="Btnclick();">
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">運算</font>
+                </font>
+            </button> </div>
+
+        <div class="formgroup">
+            <label id="result">
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">246</font>
+                </font>
+            </label>
+
+        </div>
+    </form>
 </body>
 
 </html>
