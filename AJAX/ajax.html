@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AJAX</title>
+
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        
+            function leftbtn() {
+                let value = $("#language").val();
+                $.ajax({
+                    type: "post", //http verb
+                    headers: {
+                        //http header
+                        "Ocp-Apim-Subscription-Key": "8e15086662094d478de152a7688701d1",
+                        "Content-Type": "application/json"
+                    },
+                    url: "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=en&to=zh-Hant&to=ko&to=ja&to=es",
+
+                    data: JSON.stringify([{
+                        "Text": $('#righttext').val()
+                    }]), //要翻譯的文字
+                    dataType: "json",
+                    success: function (response) {
+                        //呼叫遠端服務後的回傳結果
+                        if (value == 0) {
+                            $('#lefttext').val(response[0].translations[0].text);
+                        }
+                        if (value == 1) {
+                            $('#lefttext').val(response[0].translations[1].text);
+                        }
+                        if (value == 2) {
+                            $('#lefttext').val(response[0].translations[2].text);
+                        }
+                        if (value == 3) {
+                            $('#lefttext').val(response[0].translations[3].text);
+                        }
+                        if (value == 4) {
+                            $('#lefttext').val(response[0].translations[4].text);
+                        }
+                    }
+                });
+            }
+
+            function rightbtn() {
+                let value = $("#language").val();
+                $.ajax({
+                    type: "post", //http verb
+                    headers: {
+                        //http header
+                        "Ocp-Apim-Subscription-Key": "8e15086662094d478de152a7688701d1",
+                        "Content-Type": "application/json"
+                    },
+                    url: "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=en&to=zh-Hant&to=ko&to=ja&to=es",
+
+                    data: JSON.stringify([{
+                        "Text": $('#lefttext').val()
+                    }]), //要翻譯的文字
+                    dataType: "json",
+                    success: function (response) {
+                        //呼叫遠端服務後的回傳結果
+                        if (value == 0) {
+                            $('#righttext').val(response[0].translations[0].text);
+                        }
+                        if (value == 1) {
+                            $('#righttext').val(response[0].translations[1].text);
+                        }
+                        if (value == 2) {
+                            $('#righttext').val(response[0].translations[2].text);
+                        }
+                        if (value == 3) {
+                            $('#righttext').val(response[0].translations[3].text);
+                        }
+                        if (value == 4) {
+                            $('#righttext').val(response[0].translations[4].text);
+                        }
+                    }
+                });
+            }
+
+        $(document).ready(function () {
+            $("#doleftbtn").click(leftbtn);
+            $("#dorightbtn").click(rightbtn);
+        })
+    </script>
+    <style>
+        .btn {
+            margin: 100px 5px;
+            height: 50px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-header bg-info">
+                    要翻譯文字
+                    <select name="language" id="language" style="padding-right: 80px;margin:0 0 0 150px">
+                        <option value="0" selected>英文</option>
+                        <option value="1">中文</option>
+                        <option value="2">韓文</option>
+                        <option value="3">日文</option>
+                        <option value="4">西班牙文</option>
+                    </select>
+                </div>
+                <div class="card-body">
+                    <textarea name="" id="lefttext"" cols=" 50" rows="8" placeholder="請輸入文字"></textarea>
+                </div>
+            </div>
+
+            <button id="doleftbtn" class="btn btn-info">
+                <<-- </button> <button id="dorightbtn" class="btn btn-info"> -->>
+            </button>
+
+            <div class="card">
+                <div class="card-header bg-info">
+                    被翻譯文字
+                </div>
+                <div class="card-body">
+                    <textarea name="" id="righttext" cols="50" rows="8" placeholder="幫您翻譯輸入文字"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
