@@ -56,21 +56,21 @@
 
             if ($("#input").val() > 0) {
                 $("#input").val($("#input").val() - 1);
-            sec = setTimeout(showTime, 10000000);
-        } else if ($("#input").val() == 0) {
-            var result = confirm("時間到");
-            if (result) {
-                window.location.href = window.location.href;
+                sec = setTimeout(showTime, 10000000);
+            } else if ($("#input").val() == 0) {
+                var result = confirm("時間到");
+                if (result) {
+                    window.location.href = window.location.href;
+                }
+            } else if ($("#input").val() < 0) {
+                var result = confirm('時間輸入錯誤，請重新輸入');
+                if (result) {
+                    window.location.href = window.location.href;
+                }
             }
-        } else if ($("#input").val() < 0) {
-            var result = confirm('時間輸入錯誤!!!');
-            if (result) {
-                window.location.href = window.location.href;
-            }
-        }
-        var dt = new Date();
-        document.getElementById('text').innerText = dt.Format("yyyy/MM/dd HH:mm:ss");
-        setTimeout(showTime, 1000);
+            var dt = new Date();
+            document.getElementById('text').innerText = dt.Format("yyyy/MM/dd HH:mm:ss");
+            setTimeout(showTime, 1000);
         }
 
         $(document).ready(function () {
@@ -92,8 +92,8 @@
 </head>
 
 <body>
-    <label id="backtext" style="font-family: showtext;font-size: 50px">Run back</label>
-    <br/>
+    <label id="backtext" style="font-family: showtext;font-size: 50px">Time back</label>
+    <br />
     <input type="text" id="input" style="font-size: 30px" placeholder="請輸入秒數">
     <br />
     <label id="text" style="font-family: showtext;font-size: 50px">TEXT RUN</label>
