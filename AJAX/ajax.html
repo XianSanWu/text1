@@ -51,6 +51,9 @@
         }
 
         function rightbtn() {
+            //保存最後服務回傳結果
+            localStorage.lastQuery = $('#lefttext').val();
+
             let value = $("#language").val();
             $.ajax({
                 type: "post", //http verb
@@ -89,6 +92,8 @@
         $(document).ready(function () {
             $("#doleftbtn").click(leftbtn);
             $("#dorightbtn").click(rightbtn);
+            //還原最後一次查詢
+            $('#lefttext').val(localStorage.lastQuery);
         })
     </script>
     <style>
@@ -101,7 +106,6 @@
 </head>
 
 <body>
-
     <div class="container">
         <div class="row">
             <div class="card">
@@ -120,8 +124,9 @@
                         placeholder="請輸入文字"></textarea>
                 </div>
             </div>
-            <button id="doleftbtn" class="btn btn-info"><<</button>
-            <button id="dorightbtn" class="btn btn-info">>></button>
+            <button id="doleftbtn" class="btn btn-info">
+                <<</button> <button id="dorightbtn" class="btn btn-info">>>
+            </button>
             <div class="card">
                 <div class="card-header bg-info">
                     被翻譯文字

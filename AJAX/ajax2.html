@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AJAX2</title>
+
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        function whensucces(response) {
+            $('#text').val(response[0].translations[2].text);
+        }
+
+        function Button() {
+            var source = $('#text').val();
+            $.ajax({
+                type: "post", //http verb
+                headers: {
+                    //http header
+                    "Ocp-Apim-Subscription-Key": "8e15086662094d478de152a7688701d1",
+                    "Content-Type": "application/json"
+                },
+                url: "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=en&to=zh-Hant&to=ko&to=ja&to=es",
+                data: JSON.stringify([{
+                    "Text": [{
+                        "Text": source
+                    }]
+                }]), //要翻譯的文字
+                dataType: "json",
+                success: whensucces
+            });
+        }
+
+
+        $(document).ready(function () {
+            $("#doleftbtn").click(Button);
+            $("#dorightbtn").click(Button);
+        })
+    </script>
+    <style>
+        .btn {
+            margin: 100px 5px;
+            height: 50px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-header bg-info">
+                    要翻譯文字
+                </div>
+                <div class="card-body">
+                    <textarea class="form-control" name="" id="text"" cols=" 50" rows="8"
+                        placeholder="請輸入文字"></textarea>
+                </div>
+            </div>
+            <button id="doleftbtn" class="btn btn-info">
+                <<</button> <button id="dorightbtn" class="btn btn-info">>>
+            </button>
+            <div class="card">
+                <div class="card-header bg-info">
+                    被翻譯文字
+                </div>
+                <div class="card-body">
+                    <textarea class="form-control" name="" id="text" cols="50" rows="8"
+                        placeholder="幫您翻譯輸入文字"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
