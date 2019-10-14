@@ -127,14 +127,14 @@
                 $('#EditField_Address').val()
             ];
             //找到當前筆數
-            var n =dat.indexOf(CurrentEditItem);
+            var n = dat.indexOf(CurrentEditItem);
             //取得置換對象
             dat[n] = NewItem;
             refreshData();
         }
 
-        //原始資料
         function into() {
+            //原始資料
             MyData = $('#Table1').DataTable({
                 data: dat
             });
@@ -161,7 +161,6 @@
             $('#ButtonImport').click(ButtonImport);
             //讀取資料
             LoadData();
-
         }
         //可寫可不寫//var MyData = null;
         $(document).ready(function () {
