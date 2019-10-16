@@ -46,6 +46,7 @@
 
   <script>
     var ans = makecomputerNumber();
+
     function startGame() {
       $("#guessResults").text("");
       ans = makecomputerNumber();
@@ -60,12 +61,18 @@
       alert(ans);
     }
 
+    function AB() {
+      var A = 0;
+      var B = 0;
+
+    }
+
     function doGuess() {
       $("#guessResults").text("");
-      
+
       $('#guessResults').append(
-          '<li class="list-group-item"><span class="label label-success">4A0B</span>' + $('#userGuess')
-          .val() + '</li>');
+        '<li class="list-group-item"><span class="label label-success">4A0B</span>' + $('#userGuess')
+        .val() + '</li>');
       if ($("#userGuess").text().indexOf() == result.indexOf()) {
         alert("WIN");
       }

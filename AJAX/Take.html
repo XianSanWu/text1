@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AJAX</title>
+
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        function rightbtn() {
+
+            var responsetext;
+            $.ajax({
+                type: "post", //http verb
+                headers: {
+                    //http header
+                    "Content-Type": "application/json",
+                    "Authorization": "EndpointKey 9fbdc5e2-d61d-4a6b-b777-10ebd49f435b ",
+                },
+                url: "https://del2019.azurewebsites.net/qnamaker/knowledgebases/9d0f390a-7d48-4735-b403-a4a356391bbd/generateAnswer",
+
+                data: JSON.stringify({
+                    "question": $('#lefttext').val()
+                }), //要翻譯的文字
+                dataType: "json",
+                success: function (response) {
+                    //呼叫遠端服務後的回傳結果
+                    console.log('response is', response)
+                    responsetext = response.answers[0].answer;
+                    $('#righttext').val(responsetext);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#dorightbtn").click(rightbtn);
+        })
+    </script>
+    <style>
+        .btn {
+            margin: 100px 5px;
+            height: 50px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-header bg-info">
+                    我
+                </div>
+                <div class="card-body">
+                    <textarea class="form-control" name="" id="lefttext"" cols=" 50" rows="8"
+                        placeholder="請輸入文字"></textarea>
+                </div>
+            </div>
+            <button id="dorightbtn" class="btn btn-info">>></button>
+            <div class="card">
+                <div class="card-header bg-info">
+                    機器人
+                </div>
+                <div class="card-body">
+                    <textarea class="form-control" name="" id="righttext" cols="50" rows="8"
+                        placeholder="回復文字"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
