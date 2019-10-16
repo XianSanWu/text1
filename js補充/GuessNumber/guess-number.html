@@ -51,6 +51,8 @@
       $("#guessResults").text("");
       ans = makecomputerNumber();
       $("#userGuess").attr("disabled", false);
+      $('#restart').attr("disabled", false);
+      $('#cheat').attr("disabled", false);
     }
 
     function abortGame() {
@@ -61,21 +63,66 @@
       alert(ans);
     }
 
-    function AB() {
-      var A = 0;
-      var B = 0;
-
-    }
 
     function doGuess() {
-      $("#guessResults").text("");
 
-      $('#guessResults').append(
-        '<li class="list-group-item"><span class="label label-success">4A0B</span>' + $('#userGuess')
-        .val() + '</li>');
-      if ($("#userGuess").text().indexOf() == result.indexOf()) {
-        alert("WIN");
+      var A = 0;
+      var B = 0;
+      var input = $('#userGuess').val();
+      //判斷輸入4位數
+      if (input.length != 4) {
+        alert("請輸入四位數");
+        $('#userGuess').val("");
+        return;
       }
+
+      //判斷輸入不重複
+      var arr = [];
+      $.each(input.split(""), function (i, item) {
+        arr.push(item);
+      })
+      console.log('arr', arr)
+      var recipientsArray = arr.sort();
+      var reportRecipientsDuplicate = [];
+      for (var i = 0; i < recipientsArray.length - 1; i++) {
+        if (recipientsArray[i + 1] == recipientsArray[i]) {
+          reportRecipientsDuplicate.push(recipientsArray[i]);
+          alert("請輸入不重複數字");
+          $('#userGuess').val("");
+          return;
+        }
+      }
+      //開頭不為0
+      if(input[0]==0){
+        alert("請輸入開頭不為0數字");
+          $('#userGuess').val("");
+          return;
+      }
+
+      //判斷幾A幾B
+      for (let i = 0; i < 4; i++) {
+        if (input[i] == ans[i]) {
+          A++;
+        } else if (ans.includes(input[i])) {
+          B++;
+        }
+      }
+      var result = A + "A" + B + "B";
+      //顯示出來
+      if (result == "4A0B") {
+        $('#guessResults').append(
+          `<li class="list-group-item"><span class="label label-success">${result}</span>` + $('#userGuess')
+          .val() + '</li>');
+        alert('WIN !');
+        $('#userGuess').attr("disabled", true);
+        $('#restart').attr("disabled", true);
+        $('#cheat').attr("disabled", true);
+      } else {
+        $('#guessResults').append(
+          `<li class="list-group-item"><span class="label label-danger">${result}</span>` + $('#userGuess')
+          .val() + '</li>');
+      }
+      $('#userGuess').val("");
     }
 
     function getRandom() {
