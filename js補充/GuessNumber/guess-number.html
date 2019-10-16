@@ -56,8 +56,8 @@
       $("#userGuess").attr("disabled", false);
     }
 
-    function shoeAnswer() {
-      result = Guess();
+    function showAnswer() {
+      alert(makecomputerNumber());
     }
 
     function doGuess() {
@@ -88,9 +88,7 @@
     $(document).ready(function () {
       $('#start').click(startGame);
       $('#restart').click(abortGame);
-      $('#cheat').click(function (e) {
-        alert(makecomputerNumber());
-      });
+      $('#cheat').click(showAnswer);
       $('#guess').click(doGuess);
       $("#userGuess").attr("disabled", true);
 
