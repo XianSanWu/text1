@@ -1,0 +1,436 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>data</title>
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- https://datatables.net/ -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <!-- tag -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
+
+    <script>
+        //預設資料
+        var dat = [
+            ['Eric', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓', ['同學','客戶']],
+        ];
+        // var dat2 = [
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        //     ['Amy', '1980/1/1', '0912345678', 'eric@gmail.com', '台北市光復南路179號13樓'],
+        // ];
+        function btnshownewwindow() {
+            //抓取資料
+            var item = [
+                $("#name").val(),
+                $("#birthday").val(),
+                $("#phone").val(),
+                $("#mail").val(),
+                $("#address").val(),
+                //get values
+                $('#tags').val()
+            ];
+            //推送檔案
+            dat.push(item);
+            //儲存資料
+            SaveData();
+            //清空介面
+            $("#name").val("");
+            $("#birthday").val("");
+            $("#phone").val("");
+            $("#mail").val("");
+            $("#address").val("");
+            //remove values
+            $('#tags').importTags("");
+            //更新
+            //refreshData();
+            LoadData();
+        }
+        //更新資料
+        function refreshData() {
+            MyData.clear();
+            MyData.rows.add(dat);
+            MyData.draw();
+        }
+        //儲存資料
+        function SaveData() {
+            var str = JSON.stringify(dat);
+            localStorage.setItem('AddressBook', str);
+        }
+        //載入資料
+        function LoadData() {
+            $.ajax({
+                type: "get",
+                url: "http://localhost:5515/api/Contact",
+                dataType: "json",
+                success: function (response) {
+                    dat = response;
+                    refreshData();
+                }
+            });
+        }
+        //匯出資料
+        function Export() {
+            //取得當前資料的JSON
+            var str = JSON.stringify(dat);
+            //填入
+            $('#field_DataJSON').val(str);
+            $('#field_DataJSON').attr('readonly', 'readonly');
+            $('#ButtonImport').attr('disabled', 'true');
+            //顯示
+            $('#ModalDataExport').modal();
+        }
+        //匯入資料
+        function Import() {
+            $('#field_DataJSON').val('');
+            $('#field_DataJSON').attr('readonly', false);
+            $('#ButtonImport').removeAttr('disabled');
+            //顯示
+            $('#ModalDataExport').modal();
+        }
+        //匯入資料裡的匯入按鈕//儲存匯入資料
+        function ButtonImport() {
+            dat = JSON.parse($('#field_DataJSON').val());
+            refreshData();
+            SaveData();
+        }
+        //刪除資料
+        function ButtonDelete() {
+            DeleteItem(CurrentEditItem);
+        }
+
+        function DeleteItem() {
+            var n = dat.indexOf(CurrentEditItem);
+            //splice刪除1個
+            dat.splice(n, 1);
+            refreshData();
+            SaveData();
+        }
+        //新增資料
+        function ButtonUpdate() {
+            //取得當前編輯資料
+            var NewItem = [
+                $('#EditField_Name').val(),
+                $('#EditField_Birthday').val(),
+                $('#EditField_TEL').val(),
+                $('#EditField_Email').val(),
+                $('#EditField_Address').val(),
+                //get values
+                $('#EditField_tags2').val()
+            ];
+            //找到當前筆數
+            var n = dat.indexOf(CurrentEditItem);
+            //取得置換對象
+            dat[n] = NewItem;
+            refreshData();
+        }
+
+        function into() {
+            //原始資料
+            MyData = $('#Table1').DataTable({
+                data: dat
+            });
+            //滑鼠直接選取
+            $('#Table1 tbody').on('click', 'tr', function () {
+                //取得當前選取資料
+                CurrentEditItem = MyData.row(this).data();
+                //顯示
+                $('#ModalEdit').modal();
+                $('#EditField_Name').val(CurrentEditItem[0]);
+                $('#EditField_Birthday').val(CurrentEditItem[1]);
+                $('#EditField_TEL').val(CurrentEditItem[2]);
+                $('#EditField_Email').val(CurrentEditItem[3]);
+                $('#EditField_Address').val(CurrentEditItem[4]);
+                //remove values
+                $('#EditField_tags2').importTags(CurrentEditItem[5]);
+            })
+            //ModalEdit的新增和刪除
+            $('#ButtonDelete').click(ButtonDelete);
+            $('#ButtonUpdate').click(ButtonUpdate);
+            //新增資料按鈕
+            $('#btnshownewwindow').click(btnshownewwindow);
+            //匯入匯出按鈕
+            $('#ButtonShowImport').click(Import);
+            $('#ButtonShowExport').click(Export);
+            $('#ButtonImport').click(ButtonImport);
+            //讀取資料
+            LoadData();
+        }
+        //標記(備註)
+        function TAG() {
+            //setup tag input
+            $('#tags').tagsInput();
+            //setup tag input
+            $('#EditField_tags2').tagsInput();
+        }
+
+        //可寫可不寫//var MyData = null;
+        $(document).ready(function () {
+            into();
+            TAG();
+            // $(newbtn).click(function (e) {
+            //     MyData.clear();
+            //     MyData.rows.add(dat2);
+            //     MyData.draw();
+            // $('#Table1').DataTable({
+            //     data: dat2
+            // });
+            // });
+            // MyData = $('#Table1').DataTable({
+            //     data: dat
+            // });
+        });
+    </script>
+    <style>
+        .btn {
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 主選單 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">個人通訊錄</a>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newdata">新增</button>
+        <!-- Modal -->
+        <div class="modal fade" id="newdata" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">新增資料</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label>姓名</label>
+                        <input id='name' type="text" class="form-control" placeholder="請輸入姓名">
+                        <label>生日</label>
+                        <input id='birthday' type="text" class="form-control" placeholder="請輸入生日">
+                        <label>電話</label>
+                        <input id='phone' type="text" class="form-control" placeholder="請輸入電話">
+                        <label>E-mail</label>
+                        <input id='mail' type="text" class="form-control" placeholder="請輸入E-mail">
+                        <label>地址</label>
+                        <input id='address' type="text" class="form-control" placeholder="請輸入地址">
+                        <label>備註</label>
+                        <input id='tags' type="text" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnshownewwindow" type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div class="modal fade" id="ModalEdit">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">修改或刪除</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form>
+                            <label>姓名</label>
+                            <input id="EditField_Name" type="text" class="form-control" />
+                            <label>生日</label>
+                            <input id="EditField_Birthday" type="datetime" class="form-control" />
+                            <label>電話</label>
+                            <input id="EditField_TEL" type="tel" class="form-control" />
+                            <label>email</label>
+                            <input id="EditField_Email" type="email" class="form-control" />
+                            <label>地址</label>
+                            <input id="EditField_Address" type="address" class="form-control" />
+                            <label>備註</label>
+                            <input id='EditField_tags2' type="text" class="form-control">
+                        </form>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button id="ButtonUpdate" type="button" class="btn btn-primary" data-dismiss="modal">儲存</button>
+                        <button id="ButtonDelete" type="button" class="btn btn-danger" data-dismiss="modal">刪除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a id="ButtonShowImport" style="margin-left: 10px" class="btn btn-danger" href="#">匯入</a>
+                <a id="ButtonShowExport" style="margin-left: 10px" class="btn btn-danger" href="#">匯出</a>
+            </li>
+        </ul>
+        <!-- The Modal : ModalDataExport -->
+        <div class="modal fade" id="ModalDataExport">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">資料匯出匯入</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <textarea id="field_DataJSON" class="form-control" cols="60" rows="10"></textarea>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button id="ButtonImport" type="button" class="btn btn-primary" data-dismiss="modal">匯入</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <button id="newbtn" class="btn btn-primary">更新</button> -->
+
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-success my-2 my-sm-0 " type="submit">Search</button>
+        </form>
+    </nav>
+
+    <!-- 主內容 -->
+    <div class="container">
+        <div class="row" style="margin: 10px;">
+            <div class="col-lg-12">
+                <table id="Table1" class="display" width="100%">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>生日</th>
+                            <th>電話</th>
+                            <th>E-mail</th>
+                            <th>地址</th>
+                            <th>備註</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <!-- <tr>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                        </tr>
+                        <tr>
+                            <td>Garrett Winters</td>
+                            <td>Accountant</td>
+                            <td>Tokyo</td>
+                            <td>63</td>
+                            <td>2011/07/25</td>
+                        </tr>
+                        <tr>
+                            <td>Haley Kennedy</td>
+                            <td>Senior Marketing Designer</td>
+                            <td>London</td>
+                            <td>43</td>
+                            <td>2012/12/18</td>
+                        </tr>
+                        <tr>
+                            <td>Tatyana Fitzpatrick</td>
+                            <td>Regional Director</td>
+                            <td>London</td>
+                            <td>19</td>
+                            <td>2010/03/17</td>
+                        </tr>
+                        <tr>
+                            <td>Michael Silva</td>
+                            <td>Marketing Designer</td>
+                            <td>London</td>
+                            <td>66</td>
+                            <td>2012/11/27</td>
+                        </tr>
+                        <tr>
+                            <td>Paul Byrd</td>
+                            <td>Chief Financial Officer (CFO)</td>
+                            <td>New York</td>
+                            <td>64</td>
+                            <td>2010/06/09</td>
+                        </tr>
+                        <tr>
+                            <td>Gloria Little</td>
+                            <td>Systems Administrator</td>
+                            <td>New York</td>
+                            <td>59</td>
+                            <td>2009/04/10</td>
+                        </tr>
+                        <tr>
+                            <td>Bradley Greer</td>
+                            <td>Software Engineer</td>
+                            <td>London</td>
+                            <td>41</td>
+                            <td>2012/10/13</td>
+                        </tr>
+                        <tr>
+                            <td>Dai Rios</td>
+                            <td>Personnel Lead</td>
+                            <td>Edinburgh</td>
+                            <td>35</td>
+                            <td>2012/09/26</td>
+                        </tr>
+                        <tr>
+                            <td>Jenette Caldwell</td>
+                            <td>Development Lead</td>
+                            <td>New York</td>
+                            <td>30</td>
+                            <td>2011/09/03</td>
+                        </tr>
+                        <tr>
+                            <td>Yuri Berry</td>
+                            <td>Chief Marketing Officer (CMO)</td>
+                            <td>New York</td>
+                            <td>40</td>
+                            <td>2009/06/25</td>
+                        </tr>
+                        <tr>
+                            <td>Caesar Vance</td>
+                            <td>Pre-Sales Support</td>
+                            <td>New York</td>
+                            <td>21</td>
+                            <td>2011/12/12</td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

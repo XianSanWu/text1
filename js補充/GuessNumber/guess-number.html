@@ -76,7 +76,7 @@
         return;
       }
 
-      //判斷輸入不重複
+      //判斷輸入不重複數字
       var arr = [];
       $.each(input.split(""), function (i, item) {
         arr.push(item);
@@ -119,15 +119,18 @@
       $('#userGuess').val("");
     }
 
+    //判斷輸入不重複
+
+
     function getRandom() {
       return Math.floor(Math.random() * 10)
     }
 
     function makecomputerNumber() {
       var computerNumber = "";
-      while(computerNumber.length < 4) {
+      while (computerNumber.length < 4) {
         n = getRandom();
-        if (computerNumber.indexOf(n)==-1) {
+        if (computerNumber.indexOf(n) == -1) {
           computerNumber += n;
         }
       }
@@ -142,9 +145,11 @@
       $("#userGuess").attr("disabled", true);
 
       document.getElementById("userGuess").onkeyup = function (event) {
+
         if (event.keyCode == 13) {
           doGuess();
         }
+
       }
     });
   </script>
