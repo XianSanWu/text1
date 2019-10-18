@@ -2,6 +2,16 @@
 <html lang="en">
 
 <head>
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!--<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>-->
+  <!-- <script src="scripts/bootstrap.min.js"></script> -->
+  <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+  <!--<script src="../../assets/js/vendor/holder.min.js"></script>-->
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,30 +20,20 @@
   <meta name="author" content="">
   <!--<link rel="icon" href="../../favicon.ico">-->
 
-  <title>Life number</title>
-
+  <title>Guess number</title>
 
   <!-- Bootstrap core CSS -->
   <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
 
   <!-- Custom styles for this template -->
   <link href="stylesheets/dashboard.css" rel="stylesheet">
+
   <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
   <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
   <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
-
-
-  <!-- Bootstrap core JavaScript
-    ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <!--<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>-->
-  <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-  <!--<script src="../../assets/js/vendor/holder.min.js"></script>-->
-  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -41,30 +41,33 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+
   <script>
     var digits = [];
     var constellation = "";
 
-    function GetApi() {
-      brither();
-      var urldat = "http://buildschoolnumerology.azurewebsites.net/api/Number/Numerology?constellation=" +
-        constellation;
+    function GetApi(whensuccess) {
       $.ajax({
-        type: "get",
-        url: urldat,
+        type: "Get",
+        url: `http://buildschoolnumerology.azurewebsites.net/api/Number/Numerology?constellation=${constellation}`,
         dataType: "json",
-        success: function (response) {
-          showtext(response);
-          console.log("response", response)
-        }
+        success: whensuccess
       });
     }
 
+    var month;
+    var day;
+
     function brither() {
       //取得星座
-      var month = digits[4] + digits[5];
+      month = digits[4] + digits[5];
       console.log('month', month);
-      var day = digits[6] + digits[7];
+      day = digits[6] + digits[7];
       console.log('day', day);
       if (month == 03 && day >= 21 || month == 04 && day <= 19) {
         constellation = "aries";
@@ -104,19 +107,16 @@
       }
       console.log('constellation', constellation);
     }
-    
-showtext(response){
-  $('#show').append(
-          `<li class="list-group-item"><span class="label label-success">${result}</span>` + $('#userGuess')
-          .val() + '</li>');
-}
+
+
+
     //取得零數
-    var sum = 0;
     var lifenum = 0;
 
     function lifenumtext() {
+      var sum = 0;
       //數字的總和
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < digits.length; i++) {
         sum += parseInt(digits[i]);
         //console.log('i', i);
       }
@@ -137,10 +137,11 @@ showtext(response){
       console.log('lifenum', lifenum);
     }
 
+    var dateControl;
 
     function lifenumber() {
       //取得input的值
-      var dateControl = document.querySelector('input[type="date"]');
+      dateControl = document.querySelector('input[type="date"]');
       dateControl.value = $('#party').val();
       console.log("dat is", dateControl.value);
 
@@ -157,6 +158,26 @@ showtext(response){
       brither();
       //取得零數
       lifenumtext();
+      //非同步
+
+      GetApi(function whensuccess(response) {
+        // $('#constellations').append(`<span class="label">${ret.name}  ${constellation}</span>`);
+        // $('#life').append(`<span class="label">${lifenum} ${ret.lookup[lifenum]}</span>`);
+        $('.show').text("");
+        $('.show').append(`<div class='list-group-item'>
+                                            <span style='background-color:Aqua'>${dateControl.value}</span> 出生的你 星座是${response.name}
+                                            <button type="button" class="close">&times;</button>
+                                            <br>
+                                            你的生命靈數:
+                                            <br>
+                                            ${lifenum}.${response.lookup[lifenum-1]}
+                                        </div>
+                                        `)
+        // 點選 X 可關掉該紀錄
+        $('.close').click(function () {
+          $(this).parent().remove()
+        })
+      });
     }
     $(document).ready(function () {
       $('#btnbtn').click(lifenumber);
@@ -165,19 +186,9 @@ showtext(response){
           lifenumber();
         }
       }
-      //非同步
-      GetApi();
     });
   </script>
-  <style>
-    #party {
-      width: 90%;
-    }
 
-    .btn {
-      width: 9%;
-    }
-  </style>
 
 </head>
 
@@ -234,12 +245,16 @@ showtext(response){
       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <div class="container-fluid">
           <h3>生命靈數</h3>
-          <div id="dat" class="nativeDateTimePicker">
-            <input type="date" id="party" name="bday">
-            <button id="btnbtn" class="btn btn-info ">按鈕</button>
+          <div class="row">
+            <div id="dat" class="nativeDateTimePicker input-group">
+              <input type="date" id="party" name="bday" class="form-control">
+              <span class="input-group-btn">
+                <a id="btnbtn" type="button" class="btn btn-info">分析結果</a>
+              </span>
+            </div>
           </div>
-          <div id='show'>顯示</div>
         </div>
+        <div class="show"> </div>
       </div>
     </div>
   </div>
