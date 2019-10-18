@@ -42,12 +42,121 @@
     <![endif]-->
 
   <script>
+    var digits = [];
+    var constellation = "";
+
+    function GetApi() {
+      brither();
+      var urldat = "http://buildschoolnumerology.azurewebsites.net/api/Number/Numerology?constellation=" +
+        constellation;
+      $.ajax({
+        type: "get",
+        url: urldat,
+        dataType: "json",
+        success: function (response) {
+          showtext(response);
+          console.log("response", response)
+        }
+      });
+    }
+
+    function brither() {
+      //取得星座
+      var month = digits[4] + digits[5];
+      console.log('month', month);
+      var day = digits[6] + digits[7];
+      console.log('day', day);
+      if (month == 03 && day >= 21 || month == 04 && day <= 19) {
+        constellation = "aries";
+      }
+      if (month == 04 && day >= 20 || month == 05 && day <= 20) {
+        constellation = "taurus";
+      }
+      if (month == 05 && day >= 21 || month == 06 && day <= 21) {
+        constellation = "gemini";
+      }
+      if (month == 06 && day >= 22 || month == 07 && day <= 22) {
+        constellation = "cancer";
+      }
+      if (month == 07 && day >= 23 || month == 08 && day <= 22) {
+        constellation = "leo";
+      }
+      if (month == 08 && day >= 23 || month == 09 && day <= 22) {
+        constellation = "virgo";
+      }
+      if (month == 09 && day >= 23 || month == 10 && day <= 23) {
+        constellation = "libra";
+      }
+      if (month == 10 && day >= 24 || month == 11 && day <= 22) {
+        constellation = "scorpio";
+      }
+      if (month == 11 && day >= 23 || month == 12 && day <= 21) {
+        constellation = "sagittarius";
+      }
+      if (month == 12 && day >= 22 || month == 01 && day <= 19) {
+        constellation = "capricorn";
+      }
+      if (month == 01 && day >= 20 || month == 02 && day <= 18) {
+        constellation = "aquarius";
+      }
+      if (month == 02 && day >= 19 || month == 03 && day <= 20) {
+        constellation = "pisces";
+      }
+      console.log('constellation', constellation);
+    }
+    
+showtext(response){
+  $('#show').append(
+          `<li class="list-group-item"><span class="label label-success">${result}</span>` + $('#userGuess')
+          .val() + '</li>');
+}
+    //取得零數
+    var sum = 0;
+    var lifenum = 0;
+
+    function lifenumtext() {
+      //數字的總和
+      for (let i = 0; i < 8; i++) {
+        sum += parseInt(digits[i]);
+        //console.log('i', i);
+      }
+      console.log('sum', sum);
+      // a = parseInt(digits[0]);
+      // b = parseInt(digits[1]);
+      // c = parseInt(digits[2]);
+      // sss = a + b + c;
+      // console.log('sss',sss);
+
+      //算生命靈數 
+      if (sum > 9) {
+        lifenum = sum % 10 + Math.floor(sum % 100 / 10);
+        if (lifenum == 10) {
+          lifenum = 1;
+        }
+      }
+      console.log('lifenum', lifenum);
+    }
+
+
     function lifenumber() {
       //取得input的值
       var dateControl = document.querySelector('input[type="date"]');
       dateControl.value = $('#party').val();
-      console.log("dat", dateControl.value);
-      $.each()
+      console.log("dat is", dateControl.value);
+
+      //抓取日期字串
+      var splitFirst = dateControl.value.split('-');
+      var ResultString = splitFirst.join('');
+      console.log('ResultString is', ResultString);
+
+      //改陣列
+      digits = ("" + ResultString).split("");
+      console.log('digits', digits);
+
+      //星座
+      brither();
+      //取得零數
+      lifenumtext();
     }
     $(document).ready(function () {
       $('#btnbtn').click(lifenumber);
@@ -56,6 +165,8 @@
           lifenumber();
         }
       }
+      //非同步
+      GetApi();
     });
   </script>
   <style>
@@ -127,6 +238,7 @@
             <input type="date" id="party" name="bday">
             <button id="btnbtn" class="btn btn-info ">按鈕</button>
           </div>
+          <div id='show'>顯示</div>
         </div>
       </div>
     </div>
