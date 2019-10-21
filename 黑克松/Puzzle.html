@@ -1,12 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+
+<head lang="en">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <!-- bootstrap 4.3.1 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <title>拼圖</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .wrap {
+            display: flex;
+            flex-wrap: wrap;
+            width: 50%;
+            height: 60%;
+            overflow: hidden;
+        }
+
+        .wrap canvas {
+            width: 33.3333%;
+            height: 33.3333%;
+            border: 1px solid bisque;
+            box-sizing: border-box;
+        }
+    </style>
+    <script>
+        var btnrandom = 0;
+        var arr = [];
+        var can;
+        var $imgshow = function (el) {
+            //console.log('el is0', el)
+            return document.querySelector(el);
+        };
+        var touchMove, touchEnd;
+        var drawImage = function (url) {
+            return new Promise(function (resolve, reject) {
+                var img = new Image();
+                img.onload = function () {
+                    resolve(img);
+                };
+                img.src = url;
+            })
+        };
+
+        function show() {
+            drawImage("2.png").then(function (img) {
+                arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+                if (btnrandom == 1) {
+                    random = arr.sort();
+                    shuffle(arr);
+                }
+                if (btnrandom == 0) {
+                    random = arr.sort();
+                }
+                console.log('arr', arr);
+                [].forEach.call(document.querySelectorAll("canvas"), function (item, i) {
+                    item.width = $imgshow(".wrap").clientWidth / 3;
+                    item.height = $imgshow(".wrap").clientHeight / 3;
+                    item.id = i;
+                    item.style.order = random[i];
+                    var ctx = item.getContext("2d");
+                    ctx.drawImage(img, img.width * (i % 3) / 3, img.height * Math.floor(i / 3) / 3, img
+                        .width / 3, img.height / 3, 0, 0, item.width, item.height);
+                });
+                        orderbtn();
+            });
+        }
+
+        function orderbtn() {
+            var a = $("#1")[0].style.order;
+            var b = $("#2")[0].style.order;
+            $("#1")[0].style.order = b;
+            $("#2")[0].style.order = a;
+            console.log($("#1")[0].style.order);
+            console.log($("#2")[0].style.order);
+        }
+        //亂數
+        function shuffle(arr) {
+            var i,
+                j,
+                temp;
+            for (i = arr.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+            return arr;
+        };
+
+        function visib() {
+            btnrandom = 1;
+            show();
+            can = $("#wrapname").children();
+            console.log('can.slice(-1) is', can.slice(-1)[0]);
+            can.slice(-1)[0].style.display = 'none';
+            $('#start').attr("disabled", true);
+            $('#end').attr("disabled", false);
+        }
+
+        function end() {
+            btnrandom = 0;
+            show();
+            can.slice(-1)[0].style.display = 'block';
+            $('#start').attr("disabled", false);
+            $('#end').attr("disabled", true);
+        }
+
+        $(document).ready(function () {
+            $('#start').click(visib);
+            $('#end').click(end);
+            $(".wrap canvas").click(orderbtn);
+            show();
+
+        });
+    </script>
 </head>
+
 <body>
-    
+
+    <div id="wrapname" class="wrap">
+        <canvas data-value="1"></canvas>
+        <canvas data-value="2"></canvas>
+        <canvas data-value="3"></canvas>
+        <canvas data-value="4"></canvas>
+        <canvas data-value="5"></canvas>
+        <canvas data-value="6"></canvas>
+        <canvas data-value="7"></canvas>
+        <canvas data-value="8"></canvas>
+        <canvas data-value="9"></canvas>
+    </div>
+    <div>
+        <button id="start" class="btn btn-info">開始</button>
+        <button id="end" class="btn btn-info">放棄</button>
+    </div>
 </body>
+
 </html>
