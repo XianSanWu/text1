@@ -61,14 +61,18 @@
         };
 
         function show() {
+            $(".wrap canvas").attr('disable', true);
             drawImage("2.png").then(function (img) {
                 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
                 if (btnrandom == 1) {
+                    $(".wrap canvas").attr('disable', false);
                     random = arr.sort();
                     shuffle(arr);
                 }
                 if (btnrandom == 0) {
+                    $(".wrap canvas").attr('disable', true);
                     random = arr.sort();
+
                 }
                 console.log('arr', arr);
                 [].forEach.call(document.querySelectorAll("canvas"), function (item, i) {
@@ -80,18 +84,10 @@
                     ctx.drawImage(img, img.width * (i % 3) / 3, img.height * Math.floor(i / 3) / 3, img
                         .width / 3, img.height / 3, 0, 0, item.width, item.height);
                 });
-                        orderbtn();
+
             });
         }
 
-        function orderbtn() {
-            var a = $("#1")[0].style.order;
-            var b = $("#2")[0].style.order;
-            $("#1")[0].style.order = b;
-            $("#2")[0].style.order = a;
-            console.log($("#1")[0].style.order);
-            console.log($("#2")[0].style.order);
-        }
         //亂數
         function shuffle(arr) {
             var i,
@@ -106,6 +102,24 @@
             return arr;
         };
 
+        function orderbtn() {
+            // var a = $("#0")[0].style.order;
+            // var b = $("#8")[0].style.order;
+            // $("#0")[0].style.order = b;
+            // $("#8")[0].style.order = a;
+            // console.log('$("#1")[0].style.order', $("#0")[0].style.order);
+            // console.log('$("#8")[0].style.order', $("#8")[0].style.order);
+            
+            var a = can.slice(-1)[0].style.order;
+            var b = can.slice(-2)[0].style.order;
+            can.slice(-1)[0].style.order= b;
+            can.slice(-2)[0].style.order= a;
+            console.log('can.slice(-1)[0]', can.slice(-1)[0].style.order);
+            console.log('can.slice(-2)[0]', can.slice(-2)[0].style.order);
+            console.log('arraaa', can.slice()[0].style.order);
+
+        }
+
         function visib() {
             btnrandom = 1;
             show();
@@ -114,6 +128,7 @@
             can.slice(-1)[0].style.display = 'none';
             $('#start').attr("disabled", true);
             $('#end').attr("disabled", false);
+            $(".wrap canvas").click(orderbtn);
         }
 
         function end() {
@@ -127,9 +142,8 @@
         $(document).ready(function () {
             $('#start').click(visib);
             $('#end').click(end);
-            $(".wrap canvas").click(orderbtn);
+            $(".wrap canvas").attr('disable', true);
             show();
-
         });
     </script>
 </head>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>仿</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        #dvPuzzle {
+            width: 490px;
+            height: 490px;
+            border: solid 5px rgb(231, 215, 160);
+            padding: 0px;
+        }
+
+        .PicCell {
+            border-top: solid 1px white;
+            border-left: solid 1px white;
+            border-right: solid 1px gray;
+            border-bottom: solid 1px gray;
+            float: left;
+            overflow: hidden;
+        }
+    </style>
+    <script>
+        var Level = 3;
+        var Size;
+        var posConv = [];
+        var temppos = [];
+        var saveLost;
+
+        $(document).ready(function () {
+            selectPuzzle(Level);
+            $('#selectLevel').change(function (e) {
+                Level = $('#selectLevel').val();
+                selectPuzzle(Level);
+            });
+        });
+
+        function selectPuzzle(Sidelength) {
+            //移除上一個圖
+            $('#dvPuzzle .PicCell').remove();
+            for (let i = 0; i < Sidelength * Sidelength; i++) {
+                Size = 480 / Sidelength;
+                //動態生成
+                $("#dvPuzzle").append(`
+                <div class='PicCell' id='Pic${i}' style="width:${Size}px;height:${Size}px;">
+                <img width="480px" height="480px" src='2.png'>
+                </div>`);
+                //console.log('id is' ,i);
+                //console.log('Sidelength is',Sidelength);
+                //分別為格子給予X,Y
+                let row = parseInt(i / Sidelength);
+                //console.log('row is',row);
+                let col = i % Sidelength;
+                //console.log('col is',col);
+                //顯示9張圖，排列位置
+                $(`#Pic${i} img`).css("margin-left", col * -Size).css("margin-top", row * -Size);
+                //給陣列列和柱
+                posConv[i] = {
+                    row: row,
+                    col: col
+                };
+                //排序陣列編號
+                temppos[i] = `Pic${i}`;
+            }
+            //console.log(posConv);
+            //console.log(temppos);
+            //移除最後一格
+            saveLost = $(`#Pic${Level * Level - 1} img`)
+            //$(`#Pic${Level * Level - 1} img`).remove();
+            saveLost.remove();
+            //移動
+            $(".PicCell").click(ImgToMove);
+            //亂數洗牌
+            $("input:button").click(RandomButton);
+        }
+
+        function ImgToMove() {
+            //點圖
+            let cells = $("#dvPuzzle div");
+            //console.log('cells',cells);
+            //抓圖的索引直
+            let i = cells.index(this);
+            //console.log('cells.index', i);
+            let toCheck = getNearPos(i, Level);
+            //console.log('getNearPos(i, Level)', toCheck);
+            while (toCheck.length > 0) {
+                //pop方法會移除陣列中的最後一個元素，並將該值回傳給呼叫者
+                let j = toCheck.pop();
+                //console.log('toCheck.pop() is', j);
+                //eq(index) 方法将匹配元素集缩减值指定 index 上的一个
+                //console.log(cells.eq(j).attr("id"));
+                //console.log(`Pic${Level * Level - 1}`)
+                //判斷是否為空白，存放交換位置
+                if (cells.eq(j).attr("id") == `Pic${Level * Level - 1}`) {
+                    if (i > j) {
+                        let k = j;
+                        j = i;
+                        i = k;
+                    }
+                    //實際交換
+                    let ahead = cells.eq(i);
+                    //console.log('ahead is' ,ahead);
+                    let behind = cells.eq(j);
+                    //console.log('behind is' ,behind);
+                    //prev()收尋
+                    let behindPrev = behind.prev();
+                    //console.log('behindPrev is', behindPrev);
+                    //.after（函數）函數（整數索引）
+                    if (Math.abs(i - j) == 1) {
+                        behind.after(ahead);
+                        //console.log('if behind is', behind.after(ahead));
+                    } else {
+                        ahead.after(behind);
+                        behindPrev.after(ahead);
+                        //console.log('else ahead is', ahead.after(behind));
+                        //console.log('else behindPrev is', behindPrev.after(ahead));
+                    }
+                }
+            }
+            checkwin();
+        }
+        //移動
+        function getNearPos(i, Sidelength) {
+            let pool = [];
+            let row = posConv[i].row, col = posConv[i].col;
+            // console.log(`row:${row} col:${col}`);
+            if (row > 0)
+                pool.push((row - 1) * Sidelength + col);
+            if (row < Sidelength - 1)
+                pool.push((row + 1) * Sidelength + col);
+            if (col > 0)
+                pool.push(i - 1);
+            if (col < Sidelength - 1)
+                pool.push(i + 1);
+            //console.log(pool);
+            return pool;
+        }
+
+        function checkwin() {
+            //創建成功時的陣列
+            let check = [];
+            for (let i = 0; i < $('.PicCell').length; i++) {
+                check.push($('.PicCell')[i]['id']);
+            }
+            //比對陣列是否一樣
+            if (check.toString() == temppos.toString()) {
+                $('#modal').modal();
+                //關閉功能
+                $(".PicCell").off("click");
+                $("input:button").off("click");
+                //加入最後一張圖
+                $(`#Pic${Level * Level - 1}`).append(saveLost);
+            }
+        }
+        //亂數
+        function RandomButton() {
+            for (let i = 0; i < 500; i++) {
+                let cells = $("#dvPuzzle div");
+                let toMove = getNearPos(cells.index($(`#Pic${Level * Level - 1}`)[0]), Level);
+                cells.eq(toMove[parseInt(Math.random() * toMove.length)]).click();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-lg-4 offset-4 text-center ">
+                <span class="label my-2">等級</span>
+                <select name="Level" id="selectLevel" class="form-control  my-2">
+                    <option value="3" selected>初階 3x3</option>
+                    <option value="4">中階 4x4</option>
+                    <option value="5">高階 5x5</option>
+                </select>
+                <input name="gamestat" id="gamestat" class="btn btn-info  my-2" type="button" value="洗牌">
+            </div>
+        </div>
+        <img src="" alt="" sizes="600" srcset="">
+        <div class="dvPuzzle container-fluid" id="dvPuzzle"></div>
+    </div>
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <span>過關</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
