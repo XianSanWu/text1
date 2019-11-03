@@ -21,8 +21,8 @@
         .PicCell {
             width: 14.28%;
             height: 16.66%;
-            border-top: solid 1px white;
-            border-left: solid 1px white;
+            border-top: solid 1px gray;
+            border-left: solid 1px gray;
             border-right: solid 1px gray;
             border-bottom: solid 1px gray;
             float: left;
@@ -75,25 +75,37 @@
     </style>
     <script type="text/javascript">
         $(function () {
+
             DynamicDiv();
+
         });
+
         function DynamicDiv() {
+            date();
             //填入16張圖
             for (var i = 0; i < 42; i++)
-                $("#dvPuzzle").append("<div class='PicCell' id='Pic" + i + "'></div>");
-            //塗上顏色以強化展示效果
-            $(".PicCell").css("background-color", "yellow");
+                $("#dvPuzzle").append("<div class='PicCell' id=" + i + "><div>weekdays[dt.getday()]</div></div>");
             console.log('i', i)
         }
+
         //建資料
         function date() {
-            //閏年月
-            var MonthSpecial = [31,29,31,30,31,30,31,31,30,31,30,31];
-            //正常月
-            var MonthNormal =[31,28,31,30,31,30,31,31,30,31,30,31]; 
-            //月名稱
-            var month_name = ["January","Febrary","March","April","May","June","July","Auguest","September","October","November","December"];
+            var dt = new Date; //,year=dt.getFullYear(),month=dt.getMonth()
+            var Fristday = new Date(dt.getFullYear(), dt.getMonth(), 1);
+            var Lastday = new Date(dt.getFullYear(), dt.getMonth() + 1, 0);
+            var weekdays = [MON,TUE,WED,THU,FRI,SAT,SUN];
+            console.log(Fristday);
+            console.log(Lastday);
             
+            //閏年月
+            var MonthSpecial = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            //正常月
+            var MonthNormal = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            //月名稱
+            var month_name = ["January", "Febrary", "March", "April", "May", "June", "July", "Auguest", "September",
+                "October", "November", "December"
+            ];
+
         }
     </script>
 </head>
