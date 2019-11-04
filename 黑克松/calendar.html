@@ -20,7 +20,7 @@
 
         .PicCell {
             width: 14.28%;
-            height: 16.66%;
+            height: 10%;
             border-top: solid 1px gray;
             border-left: solid 1px gray;
             border-right: solid 1px gray;
@@ -74,29 +74,68 @@
         }
     </style>
     <script type="text/javascript">
+        //放整個月曆的陣列
+        var Calendar = [];
+        var dt = new Date; //,year=dt.getFullYear(),month=dt.getMonth()
+        var Fristday = new Date(dt.getFullYear(), dt.getMonth(), 1);
+        var Lastday = new Date(dt.getFullYear(), dt.getMonth() + 1, 0);
+        var day = Fristday.getDate();
+        var beforeday = Lastday.getDate()+2-Fristday.getDay();
+        var afterday = Fristday.getDate();
+        var lastdateAddthisdate =Fristday.getDay() + Lastday.getDate();
+        console.log("lastdateAddthisdate is", lastdateAddthisdate)
+        Fristday.getDay();
+        console.log('Fristday.getDay()', Fristday.getDay());
+        console.log('day is', day);
+        console.log('Fristday is', Fristday);
+        console.log('Lastday  is', Lastday);
         $(function () {
-
             DynamicDiv();
-
         });
 
         function DynamicDiv() {
-            date();
-            //填入16張圖
-            for (var i = 0; i < 42; i++)
-                $("#dvPuzzle").append("<div class='PicCell' id=" + i + "><div>weekdays[dt.getday()]</div></div>");
-            console.log('i', i)
+            for (var i = 0; i < 42; i++) {
+                //$("#daydv").append("<div class='PicCell' id=" + i + "><div>" + Fristday.getDate() + "</div></div>");
+                
+                if (i < Fristday.getDay()) 
+                {
+                    //新增後改淺色字
+                    $("#daydv").append("<div class='PicCell' id=" + i + "><p>" + beforeday + "</p></div>");
+                    $('p').css('color','#a8a8a8');
+                    beforeday++;
+                } 
+                else if (i >= lastdateAddthisdate) 
+                {
+                    //新增後改淺色字
+                    $("#daydv").append("<div class='PicCell' id=" + i + "><p>" + afterday + "</p></div>");
+                    $('p').css('color','#a8a8a8');
+                    afterday++;
+                }
+                else if(i > Fristday.getDay()||i <= lastdateAddthisdate)
+                {
+                    $("#daydv").append("<div class='PicCell' id=" + i + "><div>" + day + "</div></div>");
+                    day++;
+                }
+            }
+        }
+
+        //判斷是否閏年
+        function isyear(month, year) {
+            var tmp = year % 4;
+            if (tmp == 0) {
+                return (MonthSpecial[month]);
+            } else {
+                return (MonthNormal[month]);
+            }
+        }
+        //取得某年某月第一天是星期幾
+        function dayStart(month, year) {
+            var tmpDate = new Date(year, month, 1);
+            return (tmpDate.getDay());
         }
 
         //建資料
         function date() {
-            var dt = new Date; //,year=dt.getFullYear(),month=dt.getMonth()
-            var Fristday = new Date(dt.getFullYear(), dt.getMonth(), 1);
-            var Lastday = new Date(dt.getFullYear(), dt.getMonth() + 1, 0);
-            var weekdays = [MON,TUE,WED,THU,FRI,SAT,SUN];
-            console.log(Fristday);
-            console.log(Lastday);
-            
             //閏年月
             var MonthSpecial = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
             //正常月
@@ -120,14 +159,14 @@
         </div>
         <div class="body">
             <div class="lightgrey body-list">
-                <ul>
-                    <li>MON</li>
-                    <li>TUE</li>
-                    <li>WED</li>
-                    <li>THU</li>
-                    <li>FRI</li>
-                    <li>SAT</li>
-                    <li>SUN</li>
+                <ul style="font-size: 20px;color: #180ae0;">
+                    <li>日</li>
+                    <li>一</li>
+                    <li>二</li>
+                    <li>三</li>
+                    <li>四</li>
+                    <li>五</li>
+                    <li>六</li>
                 </ul>
             </div>
             <div class="darkgrey body-list">
@@ -136,7 +175,7 @@
             </div>
         </div>
     </div>
-    <div id="dvPuzzle"></div>
+    <div id="daydv"></div>
 </body>
 
 </html>
