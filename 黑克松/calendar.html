@@ -1,4 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <!-- Optional JavaScript -->
@@ -9,9 +9,8 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>jQuery Puzzle</title>
-    <script type="text/javascript" src="js/jquery-1.3.1.js"></script>
-    <style type="text/css">
+    <title>calendar</title>
+    <style>
         #dvPuzzle {
             width: 100%;
             height: 70%;
@@ -73,89 +72,97 @@
             /*浅绿色背景*/
         }
     </style>
-    <script type="text/javascript">
+    <script>
         //放整個月曆的陣列
         var Calendar = [];
         var dt = new Date; //,year=dt.getFullYear(),month=dt.getMonth()
-        var Fristday = new Date(dt.getFullYear(), dt.getMonth(), 1);
-        var Lastday = new Date(dt.getFullYear(), dt.getMonth() + 1, 0);
-        var day = Fristday.getDate();
-        var beforeday = Lastday.getDate()+2-Fristday.getDay();
-        var afterday = Fristday.getDate();
-        var lastdateAddthisdate =Fristday.getDay() + Lastday.getDate();
-        console.log("lastdateAddthisdate is", lastdateAddthisdate)
-        Fristday.getDay();
-        console.log('Fristday.getDay()', Fristday.getDay());
-        console.log('day is', day);
-        console.log('Fristday is', Fristday);
-        console.log('Lastday  is', Lastday);
+        var countyear = dt.getFullYear();
+        var countmonth = dt.getMonth() + 1;
+        console.log(countyear);
+        console.log(countmonth);
+
         $(function () {
             DynamicDiv();
+            Countmonth();
         });
 
+        function Countmonth() {
+            $('#next-month').on('click', function () {
+                //console.log('give next-month click');
+                if (countmonth < 12) {
+                    countmonth += 1;
+                } else {
+                    countmonth = 1;
+                    countyear += 1;
+                }
+                DynamicDiv();
+            });
+            //按上個月
+            $('#last-month').on('click', function () {
+                //console.log('give last-month click');
+                if (countmonth > 1) {
+                    countmonth -= 1;
+                } else {
+                    countmonth = 12;
+                    countyear -= 1;
+                }
+                DynamicDiv();
+            });
+        }
+
         function DynamicDiv() {
+            var Fristday = new Date(countyear, countmonth + 1, 1);
+            var Lastday = new Date(countyear, countmonth + 1, 0);
+            var lastDateOfLastMonth = new Date(countyear, countmonth + 1, 0);
+
+            var day = Fristday.getDate();
+            var beforeday = Lastday.getDate() + 1 - Fristday.getDay();
+            var afterday = Fristday.getDate();
+            var lastdateAddthisdate = Fristday.getDay() + Lastday.getDate();
+            // console.log('day is', day);
+            // console.log('Fristday is', Fristday);
+            // console.log('Lastday  is', Lastday);
+            // console.log("lastdateAddthisdate is", lastdateAddthisdate);
+
+            $("#month").text(countyear + "年" + countmonth + "月");
+            Calendar = [];
+            //清空表單
+            $("#daydv").empty();
+
             for (var i = 0; i < 42; i++) {
                 //$("#daydv").append("<div class='PicCell' id=" + i + "><div>" + Fristday.getDate() + "</div></div>");
-                
-                if (i < Fristday.getDay()) 
-                {
+                if (i < Fristday.getDay()) {
                     //新增後改淺色字
                     $("#daydv").append("<div class='PicCell' id=" + i + "><p>" + beforeday + "</p></div>");
-                    $('p').css('color','#a8a8a8');
+                    $('p').css('color', '#a8a8a8');
                     beforeday++;
-                } 
-                else if (i >= lastdateAddthisdate) 
-                {
+                } else if (i >= lastdateAddthisdate) {
                     //新增後改淺色字
                     $("#daydv").append("<div class='PicCell' id=" + i + "><p>" + afterday + "</p></div>");
-                    $('p').css('color','#a8a8a8');
+                    $('p').css('color', '#a8a8a8');
                     afterday++;
-                }
-                else if(i > Fristday.getDay()||i <= lastdateAddthisdate)
-                {
+                } else if (i > Fristday.getDay() || i <= lastdateAddthisdate) {
                     $("#daydv").append("<div class='PicCell' id=" + i + "><div>" + day + "</div></div>");
                     day++;
                 }
             }
         }
-
-        //判斷是否閏年
-        function isyear(month, year) {
-            var tmp = year % 4;
-            if (tmp == 0) {
-                return (MonthSpecial[month]);
-            } else {
-                return (MonthNormal[month]);
-            }
-        }
         //取得某年某月第一天是星期幾
-        function dayStart(month, year) {
-            var tmpDate = new Date(year, month, 1);
-            return (tmpDate.getDay());
-        }
-
-        //建資料
-        function date() {
-            //閏年月
-            var MonthSpecial = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-            //正常月
-            var MonthNormal = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-            //月名稱
-            var month_name = ["January", "Febrary", "March", "April", "May", "June", "July", "Auguest", "September",
-                "October", "November", "December"
-            ];
-
-        }
+        // function dayStart(countmonth, countyear) {
+        //     var tmpDate = new Date(countyear, countmonth, 1);
+        //     return (tmpDate.getDay());
+        // }
     </script>
 </head>
 
 <body>
     <div class="calendar">
-        <div class="title">
-            <h1 class="green" id="calendar-title">Month</h1>
-            <h2 class="green small" id="calendar-year">Year</h2>
-            <a href="" id="prev">Prev Month</a>
-            <a href="" id="next">Next Month</a>
+
+        <div class="row d-flex align-items-center justify-content-around">
+            <button id="addnewitem" class="btn btn-primary" style="border-radius: 50%;">+</button>
+            <button id="last-month" class="btn">
+                < </button> <span id="month"></span>
+                    <button id="next-month" class="btn"> > </button>
         </div>
         <div class="body">
             <div class="lightgrey body-list">

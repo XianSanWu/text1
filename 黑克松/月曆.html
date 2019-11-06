@@ -1,0 +1,449 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--字型-->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+TC&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Noto Serif TC', serif;
+        }
+
+        #calendar {
+            margin: 0 auto;
+            width: 1080px;
+        }
+
+        #title_month {
+            font-size: 25px;
+        }
+
+        .container {
+            margin-bottom: 30px;
+        }
+
+        td {
+            vertical-align: top;
+            width: 155px;
+            height: 150px;
+        }
+
+        td:hover {
+            background-color: skyblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <input id="addlist_Window" class="btn btn-link" type="button" value="+">
+        <div class="text-center row">
+            <div class="col-4">
+                <input id="left_month" class="btn btn-link addData" type="button" value="<">
+            </div>
+            <div id="title_month" class="col-4"></div>
+            <div class="col-4">
+                <input id="right_month" class="btn btn-link addData" type="button" value=">">
+            </div>
+        </div>
+    </div>
+
+    <table id="calendar" class="table-striped">
+        <thead id="thead">
+            <tr>
+                <th>
+                    <p class="text-center">日</p>
+                </th>
+                <th>
+                    <p class="text-center">一</p>
+                </th>
+                <th>
+                    <p class="text-center">二</p>
+                </th>
+                <th>
+                    <p class="text-center">三</p>
+                </th>
+                <th>
+                    <p class="text-center">四</p>
+                </th>
+                <th>
+                    <p class="text-center">五</p>
+                </th>
+                <th>
+                    <p class="text-center">六</p>
+                </th>
+            </tr>
+        </thead>
+        <tbody id="calendar-content">
+        </tbody>
+    </table>
+
+    <!--Modal-->
+    <div id="AddList" class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">新增行事曆</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-2">年份:</div>
+                        <select id="list_Years" class="form-control col-2">
+                            <option value="2019">2019</option>
+                        </select>
+                        <div class="col-2">月份:</div>
+                        <select id="list_Months" class="form-control col-2">
+                        </select>
+                        <div class="col-2">日期:</div>
+                        <select id="list_Days" class="form-control col-2">
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label for="comment">代辦事項</label>
+                            <textarea class="form-control" rows="2" id="content"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="btn_Add" type="button" class="btn btn-danger" data-dismiss="modal">新增</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--Modal-->
+    <div id="AddEdit" class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">修改行事曆</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-2">年份:</div>
+                        <label id="label_year">2019</label>
+                        <div class="col-2">月份:</div>
+                        <label id="label_month"></label>
+                        <div class="col-2">日期:</div>
+                        <label id="label_date"></label>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label for="comment">代辦事項</label>
+                            <textarea class="form-control" rows="2" id="Edit_content"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="btn_Add" type="button" class="btn btn-danger" data-dismiss="modal">新增</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+
+    <script>
+        var Calendar = [];
+        var DataArr = [];
+        var d = new Date();
+        var _year = d.getFullYear();
+        var _month = d.getMonth(); //return 0-11
+        var _date = d.getDate();
+        var _week = d.getDay(); //return 0-6
+
+        //生成月曆
+        function ShowCalender() {
+
+            //清空畫面與陣列
+            $('#calendar-content').empty();
+            Calendar = [];
+
+            if (!localStorage.getItem('data')) localStorage.setItem('data', JSON.stringify([]));
+            DataArr = JSON.parse(localStorage.getItem('data'))
+
+            //產生月份
+            $('#title_month').text(GetMonthName(_month)).attr('value', _month);
+
+            //取得這個第一天
+            var firstDay = new Date(_year, _month, 1);
+
+            //取得這個最後一天
+            var lastDay = new Date(_year, _month + 1, 0);
+
+            //取得上個月最後一天
+            var lastDateOfLastMonth = new Date(_year, _month, 0);
+
+            //console.log('lastDateOfLastMonth is',lastDateOfLastMonth);
+
+            //顯示上個月在這個月的日曆 因為getDay()回傳0-6 所以要-1
+            GetLastMonDate(firstDay.getDay() - 1, lastDateOfLastMonth);
+
+            //顯示本月日期
+            GetCurrentDate(firstDay, lastDay);
+
+            //顯示下個月
+            GetNextDate(lastDay);
+
+            //根據陣列裡的資料數，取表格橫列數
+            var rows = Calendar.length / 7;
+
+            //產生表格row--tr
+            for (var i = 0; i < rows; i++) {
+                $('#calendar-content').append($('<tr>').addClass('week' + i));
+            }
+
+            for (let j = 0; j < Calendar.length; j++) {
+                let week = parseInt(j / 7);
+                let target = $('#calendar-content').find('.week' + week);
+                target.append($('<td>').text(Calendar[j].date).addClass('date' + j).attr('id',
+                    `${Calendar[j].month}${Calendar[j].date}`).attr('value',Calendar[j].date));
+            }
+            //將這個月份的td掛上click事件
+            $('td').click(tdClick);
+            LoadData();
+
+        }
+
+        function GetLastMonDate(lastMonthDateRange, lastDateOfLastMonth) {
+            //抓上個月最後一天往前推範圍，取得'日'與'星期'
+            let displaydate = lastDateOfLastMonth.getDate() - lastMonthDateRange;
+            let displayweek = lastDateOfLastMonth.getDay() - lastMonthDateRange;
+
+            for (var i = 0; i <= lastMonthDateRange; i++) {
+
+                let Item = {
+                    "month": lastDateOfLastMonth.getMonth(),
+                    "date": displaydate,
+                    "week": displayweek
+                }
+                displaydate++;
+                displayweek++;
+
+                Calendar.push(Item);
+            }
+
+        }
+
+        function GetCurrentDate(firstDay, lastDay) {
+            //抓取這個月第一天和最後一天'日'
+            let start = firstDay.getDate();
+            let final = lastDay.getDate();
+
+            for (var i = start; i <= final; i++) {
+                let today = new Date(_year, _month, i)
+                let Item = {
+                    "month": today.getMonth(),
+                    "date": i,
+                    "week": today.getDay()
+                }
+
+                Calendar.push(Item);
+            }
+        }
+
+        function GetNextDate(lastDayofThisMonth) {
+            let lastDayofThisMonth_Week = lastDayofThisMonth.getDay();
+            let nextMonFirstDate = new Date(_year, _month + 1, 1);
+
+            for (var i = 0; i < 6 - lastDayofThisMonth_Week; i++) {
+                let Item = {
+                    "month": nextMonFirstDate.getMonth(),
+                    "date": nextMonFirstDate.getDate() + i,
+                    "week": nextMonFirstDate.getDay() + i
+                }
+
+                Calendar.push(Item);
+
+            }
+        }
+
+
+        //按左鈕月份減少
+        function left_BtnClick() {
+            if (_month > 1) {
+                _month -= 1;
+            } else {
+                _month = 11;
+                _year -= 1;
+            }
+            ShowCalender();
+        }
+
+        //按右鈕月份增加
+        function right_BtnClick() {
+            if (_month < 11) {
+                _month += 1;
+            } else {
+                _month = 0;
+                _year += 1;
+            }
+            ShowCalender();
+        }
+
+        //取得月份英文
+        function GetMonthName(_month) {
+            let MonthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May',
+                'Jun', 'Jul', 'Aug', 'Sept',
+                'Oct', 'Nov', 'Dec'
+            ];
+            return MonthArray[_month];
+        }
+
+        //隨modal月份，產生日期選項
+        function Selection_Change() {
+
+            let select_month = parseInt($('#list_Months').val());
+            let month_range = select_month - 1 == 12 ? 0 : select_month + 1;
+            let list_lastDay = new Date(_year, month_range, 0).getDate();
+
+            //清空日期選項
+            $('#list_Days').empty();
+
+            for (let i = 0; i < list_lastDay; i++) {
+                $('#list_Days').append(` <option value="${i+1}">${i+1}</option>`);
+            }
+        }
+
+        //新增代辦事項
+        function List_Add() {
+
+            let select_month = parseInt($('#list_Months').val());
+            let select_day = parseInt($('#list_Days').val());
+            let list_content = $('#content').val();
+            let today = new Date(_year, select_month, select_day)
+            let flag = true;
+
+            //如果日期欄位存在清單
+            $.each(DataArr, (i, item) => {
+                if (new Date(2019, item.month, item.date) - new Date(2019, select_month, select_day) == 0) {
+                    item.content += `${list_content}<br>`;
+                    flag = false;
+                }
+            })
+
+            //如果日期欄位第一次新增清單
+            if (flag) {
+                let Item = {
+                    "month": today.getMonth(),
+                    "date": today.getDate(),
+                    "week": today.getDay(),
+                    "content": `<br id='showlist'>${list_content}<br>`
+                }
+                DataArr.push(Item);
+            }
+
+            localStorage.setItem('data', JSON.stringify(DataArr))
+
+            CleanForm();
+            LoadData();
+
+        }
+
+        //點擊+修改資料
+        function tdClick() {
+            let this_day = parseInt($(this).attr('value'));
+            let this_month = parseInt($('#title_month').attr('value'));
+            let this_content = $(`td[id='${this_month}${this_day}']`).html() == undefined ? '' : $(
+                `td[id='${this_month}${this_day}']`).html().replace(/<br>/g, '\n');
+            //<td class="date4" id="931">31</td>
+            // console.log('this_day', this_day,$(this).val());
+            // console.log('this_month', this_month);
+            // console.log('this_content', this_content);
+
+            $('#label_date').html(this_day);
+            $('#label_month').html(this_month);
+            $('#Edit_content').val(`${this_content}`);
+            $('#AddEdit').modal();
+
+        }
+
+        //清除選單資料
+        function CleanForm() {
+            $('#list_Months').val('');
+            $('#list_Days').val('');
+            $('#content').val('');
+        }
+
+        //載入存放資料
+        function LoadData() {
+            if (DataArr == []) return;
+
+            let array = DataArr.filter(x => x.month == _month)
+            $.each(array, (i, item) => {
+
+                //依照id存放Data
+                $(`td[id="${item.month}${item.date}"]`).append(`<br>${item.content}`)
+                //<td class="date12" id="108">8</td>         
+            })
+        }
+
+
+
+
+        $(function () {
+
+            ShowCalender();
+
+            $('#left_month').click(left_BtnClick);
+            $('#right_month').click(right_BtnClick);
+            $('#addlist_Window').click(function () {
+                $('#AddList').modal();
+            });
+            $('#btn_Add').click(List_Add);
+            $('#list_Months').change(Selection_Change);
+
+
+            //新增modal月份選項
+            for (let i = 0; i < 12; i++) {
+                $('#list_Months').append(` <option value="${i}">${i+1}</option>`);
+            }
+
+
+        });
+    </script>
+
+</body>
+
+</html>
