@@ -1,0 +1,178 @@
+<html>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>calendar</title>
+    <style>
+        .calendar {
+            width: 100%;
+            background: #fff;
+        }
+
+        .body-list ul {
+            width: 100%;
+            font-family: arial;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .body-list ul li {
+            padding-right: 50px;
+            width: 14.28%;
+            height: 36px;
+            line-height: 20px;
+            list-style-type: none;
+            display: block;
+            box-sizing: border-box;
+            float: left;
+            text-align: center;
+        }
+
+        #table{
+            width: 100%;
+            height: 60%;
+        }
+        td {
+            border: 1px #cccccc solid;
+        }
+        
+    </style>
+    <script>
+        var Calender = [];
+
+        var dt = new Date();
+        var _year = dt.getFullYear();
+        var _month = dt.getMonth();
+        var _date = dt.getDate();
+        var _week = dt.getDay();
+        var MonthArrey = ["January", "Febrary", "March", "April", "May", "June", "July", "Auguest", "September",
+            "October", "November", "December"
+        ];
+
+        var firstDay = new Date(_year, _month, 1);
+        var lastDay = new Date(_year, _month + 1, 0);
+
+        $(function () {
+            // console.log('date is', _year, '年', MonthArrey[_month], '月', _date, '日 星期', _week);
+            // console.log('第一天', firstDay);
+            // console.log('星期', firstDay.getDay());
+            // console.log('最後一天', lastDay);
+            // console.log('星期', lastDay.getDay());
+            //設定上個月日期
+            //先取上個月最後一天，再回傳摻數
+            var lastDayteofLastMonth = new Date(_year, _month, 0);
+            GetLastMonthDate(firstDay.getDay(), lastDayteofLastMonth);
+
+            GetCurrentMonthDate(firstDay, lastDay);
+
+            GetNextMonthDate(lastDay);
+
+            //顯示表格
+            displayCalender();
+        })
+
+        function displayCalender() {
+            var row_count = Calender.length / 7;
+            for (var i = 0; i < row_count; i++) {
+                $('#days').append($('<tr>').addClass('week' + i));
+            }
+            for (var i = 0; i < Calender.length; i++) {
+                var week = parseInt(i / 7);
+                var target = $('#days').find('.week' + week);
+                target.append($('<td>').text(Calender[i].date));
+            }
+            var tr = $('#days').find('tr');
+            for (var i = 0; i < tr.length; i++) {
+                console.log('tr is', tr[i]);
+            }
+        }
+
+        function GetCurrentMonthDate(firstDay, lastDay) {
+            var start = firstDay.getDate();
+            var end = lastDay.getDate();
+            console.log('start,end', start, end);
+            for (i = start; i <= end; i++) {
+                var today_week = new Date(_year, _month, i);
+                var singleItem = {
+                    "month": firstDay.getMonth(),
+                    "date": i,
+                    "week": today_week.getDay()
+                }
+                Calender.push(singleItem);
+            }
+            console.log(Calender);
+        }
+
+        function GetLastMonthDate(lastMonthDateLenght, lastDayteofLastMonth) {
+            var displaydate = lastDayteofLastMonth.getDate() - lastMonthDateLenght + 1;
+            var displayweek = lastDayteofLastMonth.getDay() - lastMonthDateLenght + 1;
+            console.log('displayweek', displayweek);
+
+            console.log('displaydate', displaydate);
+            for (var i = 0; i < lastMonthDateLenght; i++) {
+                var singleItem = {
+                    "month": lastDayteofLastMonth.getMonth(),
+                    "date": displaydate,
+                    "week": displayweek
+                }
+                displaydate++;
+                displayweek++;
+                Calender.push(singleItem);
+            }
+            console.log(Calender);
+        }
+
+        function GetNextMonthDate(lastDay) {
+            var lastDayteofLastMonth_week = lastDay.getDay();
+            console.log('lastDayteofLastMonth_week', lastDayteofLastMonth_week);
+            var nextMonthFirstDate = new Date(_year, _month + 1, 1)
+            for (var i = 0; i < 6 - lastDayteofLastMonth_week; i++) {
+                var singleItem = {
+                    "month": nextMonthFirstDate.getMonth(),
+                    "date": nextMonthFirstDate.getDate() + i,
+                    "week": nextMonthFirstDate.getDay() + i
+                }
+                Calender.push(singleItem);
+            }
+            console.log(Calender);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="calendar">
+
+        <div class="row d-flex align-items-center justify-content-around">
+            <button id="addnewitem" class="btn btn-primary" style="border-radius: 50%;">+</button>
+            <button id="last-month" class="btn">
+                < </button> <span id="month"></span>
+                    <button id="next-month" class="btn"> > </button>
+        </div>
+        <div class="body">
+            <div class="lightgrey body-list">
+                <ul style="font-size: 20px;color: #180ae0;">
+                    <li>日</li>
+                    <li>一</li>
+                    <li>二</li>
+                    <li>三</li>
+                    <li>四</li>
+                    <li>五</li>
+                    <li>六</li>
+                </ul>
+            </div>
+            <table id='table'>
+                <tbody id='days'></tbody>
+            </table>
+        </div>
+    </div>
+    <div id="daydv"></div>
+</body>
+
+</html>

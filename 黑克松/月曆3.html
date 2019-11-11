@@ -1,0 +1,286 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <input class='addData' type="button" value="+">
+        <div class="text-center row">
+            <div class="col-4">
+                <button class="left">&lt;</button>
+            </div>
+            <div class="h1 col-4">十月</div>
+            <div class="col-4">
+                <button class="right">&gt;</button>
+            </div>
+        </div>
+        <table style="width: 1400px;margin: 0 auto;">
+            <thead>
+                <tr class="text-center">
+                    <th class='border'>星期日</th>
+                    <th class='border'>星期一</th>
+                    <th class='border'>星期二</th>
+                    <th class='border'>星期三</th>
+                    <th class='border'>星期四</th>
+                    <th class='border'>星期五</th>
+                    <th class='border'>星期六</th>
+                </tr>
+            </thead>
+            <tbody id='date_data'></tbody>
+        </table>
+        <div class="modal fade" id="ModalDataAdd">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">新增</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-2">年份:</div>
+                            <select name="" id="addYears" style="width: 60px;">
+                                <option value="2019">2019</option>
+                            </select>
+                            <div class="col-2">月份:</div>
+                            <select name="" id="addMonths" style="width: 60px;">
+                            </select>
+                            <div class="col-2">日期:</div>
+                            <select name="" id="addDays" style="width: 60px;">
+                            </select>
+                        </div>
+                        <div>
+                            備註事項:
+                            <input type="text" name="" id="context">
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button id="ButtonAdd" type="button" class="btn btn-primary" data-dismiss="modal">新增</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="ModalEdit">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">修改或刪除</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-2">年份:</div>
+                            <div>2019</div>
+                            <div class="col-2">月份:</div>
+                            <div>10</div>
+                            <div class="col-2">日期:</div>
+                            <div class="daysdisplay"></div>
+                        </div>
+                        <div>
+                            <p>備註事項:</p>
+                            <textarea name="" id="contextdisplay" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button id="ButtonUpdate" type="button" class="btn btn-primary" data-dismiss="modal">儲存</button>
+                        <button id="ButtonDelete" type="button" class="btn btn-danger" data-dismiss="modal">刪除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script>
+        var arrayDays = [...Array(42).keys()]
+        var arraMonths = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+        var count = 0
+        var n = 9
+        var daysdisplay
+        var monthdisplay
+        var contextdisplay
+        var dataArray = []
+        $(() => {
+            createTable()
+            $('.left').click(left_click)
+            $('.right').click(right_click)
+            $('.addData').click(addData_click)
+            $('#ButtonAdd').click(ButtonAdd_click)
+            $('#ButtonUpdate').click(ButtonUpdate_click)
+            $('#ButtonDelete').click(ButtonDelete_click)
+            $('#addMonths').change(addMonths_change)
+            for (let i = 0; i < 12; i++) {
+                $('#addMonths').append(`<option value='${i}'>${i+1}</option>`)
+            }
+        })
+        // 載入紀錄
+        function loadData() {
+            if (dataArray == []) return
+            let month = $('.h1').attr('value')
+            let array = dataArray.filter(v => new Date(v.date).getMonth() == parseInt(month))
+            $.each(array, (i, item) => {
+                let displayday = new Date(item.date).getDate()
+                $(`th[value='${displayday}'] .card-body`).html(item.content)
+            })
+        }
+        // 月份變換 日期也會變換
+        function addMonths_change() {
+            let years = parseInt($('#addYears').val())
+            let month = parseInt($('#addMonths').val())
+            let monthMargin = month + 1 == 12 ? 0 : month + 1
+            $('#addDays').html('')
+            let last_day = new Date(years, monthMargin, 0).getDate()
+            for (let i = 0; i < last_day; i++) {
+                $('#addDays').append(`<option value='${i+1}'>${i+1}</option>`)
+            }
+        }
+        // 刪除
+        function ButtonDelete_click() {
+            $(`th[value='${daysdisplay}'] .card-body`).html('')
+            $.each(dataArray, (i, item) => {
+                if (new Date(item.date) - new Date(2019, monthdisplay, daysdisplay) == 0) {
+                    dataArray.splice(i, 1)
+                }
+            })
+            localStorage.setItem('data', JSON.stringify(dataArray))
+        }
+        // 更新
+        function ButtonUpdate_click() {
+            let displaycontext = $('#contextdisplay').val().replace(/\n/g, '<br>')
+            if (displaycontext.substring(displaycontext.length-1) != '>') displaycontext += `<br>`
+            let flag = true
+            $.each(dataArray, (i, item) => {
+                if (new Date(item.date) - new Date(2019, monthdisplay, daysdisplay) == 0) {
+                    item.content = displaycontext
+                    flag = false
+                }
+            })
+            if (flag) {
+                dataArray.push({
+                    date: new Date(2019, monthdisplay, daysdisplay),
+                    content: displaycontext
+                })
+            }
+            localStorage.setItem('data', JSON.stringify(dataArray))
+            loadData()
+        }
+        // 該日之事項修改
+        function th_click() {
+            daysdisplay = parseInt($(this).attr('value'))
+            monthdisplay = parseInt($('.h1').attr('value'))
+            contextdisplay = $(`th[value='${daysdisplay}'] .card-body`).html() == undefined ? '' : $(`th[value='${daysdisplay}'] .card-body`).html().replace(/<br>/g, '\n')
+            $('.daysdisplay').html(daysdisplay)
+            $('#contextdisplay').val(`${contextdisplay}`)
+            $('#ModalEdit').modal()
+        }
+        // 新增
+        function ButtonAdd_click() {
+            let addMonth = parseInt($('#addMonths').val())
+            let addDay = parseInt($('#addDays').val())
+            let todolist = $('#context').val()
+            let flag = true
+            $.each(dataArray, (i, item) => {
+                if (new Date(item.date) - new Date(2019, addMonth, addDay) == 0) {
+                    item.content += `${todolist}<br>`
+                    flag = false
+                }
+            })
+            if (flag) {
+                dataArray.push({
+                    date: new Date(2019, addMonth, addDay),
+                    content: `${todolist}<br>`
+                })
+            }
+            localStorage.setItem('data', JSON.stringify(dataArray))
+            loadData()
+        }
+        // 點擊 + 按鈕
+        function addData_click() {
+            $('#ModalDataAdd').modal()
+            addMonths_change()
+        }
+        // 月份往左
+        function left_click() {
+            count--
+            createTable()
+        }
+        // 月份往右
+        function right_click() {
+            count++
+            createTable()
+        }
+        // 生成表格
+        function createTable() {
+            if (!localStorage.getItem('data')) localStorage.setItem('data', JSON.stringify([]))
+            dataArray = JSON.parse(localStorage.getItem('data'))
+            let today = new Date()
+            let month = today.getMonth() + count
+            let monthMargin = month + 1
+            let years = today.getFullYear()
+            let first_day = new Date(years, month, 1).getDay()
+            let last_day = new Date(years, monthMargin, 0).getDate()
+            let htmlcode = ''
+            let start = 1
+            $('.h1').text(`${arraMonths[month]}`).attr('value', `${month}`)
+            for (let i = 0; i < arrayDays.length; i++) {
+                if (i < first_day || i >= first_day + last_day) {
+                    arrayDays[i] = ''
+                } else {
+                    arrayDays[i] = start
+                    start++
+                }
+            }
+            for (let i in arrayDays) {
+                if (i % 7 == 0) {
+                    if (i > 7 && arrayDays[i] == '') break
+                    htmlcode += `<tr style='height:100px'>`
+                }
+                let template =
+                    `<th class='border' value='${arrayDays[i]}'>
+                        <div class='card' style='border:white'>
+                            <div class='card-head'>${arrayDays[i]}
+                            </div>
+                            <div class='card-body pl-0'>
+                            </div>
+                        </div>
+                    </th>`
+                htmlcode += template
+            }
+            $('#date_data').html(htmlcode)
+            for(let i = 1;i <= last_day;i++){
+                $(`#date_data th[value='${i}']`).click(th_click)
+            }
+            loadData()
+        }
+    </script>
+</body>
+
+</html>
