@@ -35,31 +35,32 @@
             text-align: center;
         }
 
-        #table{
+        #table {
             width: 100%;
             height: 60%;
         }
+
         td {
             border: 1px #cccccc solid;
         }
-        
     </style>
     <script>
         var Calender = [];
-
         var dt = new Date();
         var _year = dt.getFullYear();
         var _month = dt.getMonth();
         var _date = dt.getDate();
         var _week = dt.getDay();
-        var MonthArrey = ["January", "Febrary", "March", "April", "May", "June", "July", "Auguest", "September",
-            "October", "November", "December"
-        ];
-
+        
         var firstDay = new Date(_year, _month, 1);
         var lastDay = new Date(_year, _month + 1, 0);
-
+        var lastDayteofLastMonth = new Date(_year, _month, 0);
         $(function () {
+        
+            // var MonthArrey = ["January", "Febrary", "March", "April", "May", "June", "July", "Auguest",
+            //     "September",
+            //     "October", "November", "December"
+            // ];
             // console.log('date is', _year, '年', MonthArrey[_month], '月', _date, '日 星期', _week);
             // console.log('第一天', firstDay);
             // console.log('星期', firstDay.getDay());
@@ -67,7 +68,6 @@
             // console.log('星期', lastDay.getDay());
             //設定上個月日期
             //先取上個月最後一天，再回傳摻數
-            var lastDayteofLastMonth = new Date(_year, _month, 0);
             GetLastMonthDate(firstDay.getDay(), lastDayteofLastMonth);
 
             GetCurrentMonthDate(firstDay, lastDay);
@@ -76,9 +76,16 @@
 
             //顯示表格
             displayCalender();
+
+            //換月
+            Countmonth();
         })
 
         function displayCalender() {
+
+            $("#month").text(_year + "年" + parseInt(_month + 1) + "月");
+            // Calender = [];
+
             var row_count = Calender.length / 7;
             for (var i = 0; i < row_count; i++) {
                 $('#days').append($('<tr>').addClass('week' + i));
@@ -88,16 +95,47 @@
                 var target = $('#days').find('.week' + week);
                 target.append($('<td>').text(Calender[i].date));
             }
-            var tr = $('#days').find('tr');
-            for (var i = 0; i < tr.length; i++) {
-                console.log('tr is', tr[i]);
-            }
+            //var tr = $('#days').find('tr');
+            // for (var i = 0; i < tr.length; i++) {
+            //     // console.log('tr is', tr[i]);
+            // }
+        }
+
+        function Countmonth() {
+            //$("#table").empty();
+            Calender = [];
+
+            $('#next-month').on('click', function () {
+                //console.log('give next-month click');
+                if (_month < 11) {
+                    _month += 1;
+                } else {
+                    _month = 0;
+                    _year += 1;
+                }
+                console.log('_month', _month)
+
+                displayCalender();
+            });
+            //按上個月
+            $('#last-month').on('click', function () {
+                //console.log('give last-month click');
+                if (_month > 0) {
+                    _month -= 1;
+                } else {
+                    _month = 11;
+                    _year -= 1;
+                }
+
+                displayCalender();
+            });
         }
 
         function GetCurrentMonthDate(firstDay, lastDay) {
+
             var start = firstDay.getDate();
             var end = lastDay.getDate();
-            console.log('start,end', start, end);
+            // console.log('start,end', start, end);
             for (i = start; i <= end; i++) {
                 var today_week = new Date(_year, _month, i);
                 var singleItem = {
@@ -111,11 +149,12 @@
         }
 
         function GetLastMonthDate(lastMonthDateLenght, lastDayteofLastMonth) {
+
             var displaydate = lastDayteofLastMonth.getDate() - lastMonthDateLenght + 1;
             var displayweek = lastDayteofLastMonth.getDay() - lastMonthDateLenght + 1;
-            console.log('displayweek', displayweek);
+            // console.log('displayweek', displayweek);
 
-            console.log('displaydate', displaydate);
+            // console.log('displaydate', displaydate);
             for (var i = 0; i < lastMonthDateLenght; i++) {
                 var singleItem = {
                     "month": lastDayteofLastMonth.getMonth(),
@@ -130,6 +169,7 @@
         }
 
         function GetNextMonthDate(lastDay) {
+
             var lastDayteofLastMonth_week = lastDay.getDay();
             console.log('lastDayteofLastMonth_week', lastDayteofLastMonth_week);
             var nextMonthFirstDate = new Date(_year, _month + 1, 1)
@@ -172,7 +212,6 @@
             </table>
         </div>
     </div>
-    <div id="daydv"></div>
 </body>
 
 </html>
