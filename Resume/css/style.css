@@ -1,0 +1,223 @@
+ /* 放大卡片並霧化其他卡片 */
+        .row .hei {
+            margin-top: 10px;
+            transition: 0.5s;
+        
+        }
+        
+        .row:hover .hei{
+            filter:blur(5px);
+            transform: scale(.8);
+            
+        }
+        .row .hei:hover{
+            filter:blur(0);
+            transform: scale(1.1);
+            
+        }
+        body {
+            background-image: url('https://img.freepik.com/free-vector/elegant-white-background-with-shiny-lines_1017-17580.jpg?size=626&ext=jpg');
+            background-size: 100% 100%;
+            margin-top: 50px;
+        }
+
+        #topdiv {
+            width: 100%;
+            height: 300px;
+        }
+
+        /* 卡片CSS */
+        .card {
+            border-style: none;
+        }
+        .imghover {
+            position: relative;
+            width: 100%;
+        }
+
+        .image {
+            display: block;
+            width: 100%;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            transition: .7s ease;
+            background-color: #f1f2f6;
+        }
+
+        .imghover:hover .overlay {
+            opacity: 1;
+        }
+
+        .text {
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            color: #000000;
+            font-size: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+        }
+
+        .card-header {
+            border-style: none;
+            background-color: #f1f2f6;
+        }
+
+        .card-body {
+            background-color: #f1f2f6;
+            border-style: none;
+        }
+        .card-body a{
+            width: 100%;
+            background: #74b9ff;
+            transition: .7s ease;
+        }
+
+        .card-body a:hover {
+            background: #0984e3;
+        }
+        /* 大頭貼 */
+        .myimage {
+            width: 150px;
+            height: 150px;
+            float: left;
+        }
+        /* 文字RWD */
+        @media (min-width: 300px) and (max-width: 768px) {
+            #portfolio {
+                font-size: 0.5rem
+            }
+
+            #myname {
+                font-size: 0.5rem
+            }
+
+            #slogan{
+                font-size: 0.5rem;
+            }
+            .myimage {
+                width: 100px;
+                height: 100px;
+                float: left;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1050px) {
+            #portfolio {
+                font-size: 2rem;
+            }
+            #slogan{
+                font-size: 2rem;
+            }
+
+            #myname {
+                font-size: 2rem;
+            }
+
+            .myimage {
+                width: 150px;
+                height: 150px;
+                float: left;
+            }
+        }
+        /* 名子 */
+        #myname {
+            justify-content: center;
+            text-transform: uppercase;
+            display: flex;
+        }
+
+        #myname span {
+            font-family: 'Poppins';
+            color: #ff6348;
+            transition: 1.5s;
+            transition-delay: 0s;
+        }
+
+        #myname:hover span {
+            filter: blur(20px);
+            opacity: 0;
+            transform: scale(2);
+        }
+        /* 作品集文字 */
+        #portfolio {
+            text-align: center;
+            justify-content: center;
+            font-family: sans-serif;
+        }
+
+        #portfolio span {
+            animation: portfolio 1.4s linear infinite;
+        }
+        
+        @keyframes portfolio {
+            0%,30% {
+                color: #bdc3c7;
+                box-shadow: none;
+            }
+            100% {
+                color: #ff793f;
+                box-shadow: 0 0 10px #555,
+                            0 0 20px #555,
+                            0 0 40px #555,
+                            0 0 80px #555,
+                            0 0 120px #555,
+                            0 0 160px #555, ;
+            }
+        }
+        #portfolio span:nth-child(1) {
+            animation-delay: 0s;
+        }
+        #portfolio span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        #portfolio span:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        #portfolio span:nth-child(5) {
+            animation-delay: 0.6s;
+        }
+        #portfolio span:nth-child(6) {
+            animation-delay: 0.8s;
+        }
+        #portfolio span:nth-child(7) {
+            animation-delay: 1s;
+        }
+        #portfolio span:nth-child(8) {
+            animation-delay: 1.2s;
+        }
+        #portfolio span:nth-child(9) {
+            animation-delay: 1.4s;
+        }
+        /* 標語文字 */
+        @keyframes typing {
+            from {
+                width: 0
+            }
+        }
+        @keyframes caret {
+            50% {
+                border-color: transparent;
+            }
+        }
+        #slogan {
+            font-family: 'Poppins';
+            width: 39%;
+            color: #ff6348;
+            border-right: .05em solid;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3s steps(11),
+                caret 1s steps(1) infinite;
+        }

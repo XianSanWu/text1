@@ -1,0 +1,109 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+    integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
+<script>
+    var count=0;
+    var json =
+        {
+            items: [
+                {
+                    ID: 3,
+                    title: "總裁", name: "Eric", PictureURL: "https://i.imgur.com/uxvy97n.png", Phone: "0912345678",
+                    Address: "新竹市大同區二三五路四號六樓",
+                    Memo: "澳洲來的人", isValid: true
+                },
+                {
+                    ID: 4,
+                    title: "瑪農", name: "David", PictureURL: "https://i.imgur.com/qsQcoGh.png", Phone: "0987654321",
+                    Address: "台北市信義區忠孝東路231號3樓",
+                    Memo: "充滿活力的廉價勞工", isValid: true
+                },
+                {
+                    ID: 5,
+                    title: "Boss", name: "Amy", PictureURL: "https://i.imgur.com/dfww1JX.png", Phone: "0912121121",
+                    Address: "高雄市仁義區六六路3號23樓",
+                    Memo: "小資女", isValid: true
+                }
+            ]
+        };
+    function Binding() {
+        vm = new Vue(
+            {
+                el: '#block1',
+                data: {"item":json.items[count]}
+            }
+        );
+    }
+    function Nextcount(){
+        if(count<2){
+            count++;
+        }else{
+            count=0;
+        }
+        vm.$data.item =json.items[count]
+    }
+    function Prevcount(){
+        if(count>0){
+            count--;
+        }else{
+            count=2;
+        }
+        vm.$data.item =json.items[count]
+    }
+
+    $(document).ready(function () {
+        Binding();
+        $('#Prevcount').click(function (e) {
+            Prevcount();
+        });
+        $('#Nextcount').click(function (e) {
+            Nextcount();
+        });
+    });
+</script>
+    
+<body>
+    <div class="container" id="block1">
+        <div class="row">
+            <div class="col-6">
+                <label>資料編號:{{item.ID}}</label>
+                <br>
+                <label>職稱:</label>
+                <input class="form-control" type="text" v-model="item.title">
+                <label>姓名:</label>
+                <input class="form-control" type="text" v-model="item.name">
+            </div>
+            <div class="col-6">
+                <img  v-bind:src="item.PictureURL"style="width: 150px;height: 150px;margin:15px">
+            </div>
+            
+        </div>
+        <div class="row">
+                <div class="col-8">
+                <label>Phone:</label>
+                <input class="form-control" type="text" v-model="item.Phone">
+                <label>Address:</label>
+                <input class="form-control" type="text" v-model="item.Address">
+                <label>Memo</label>
+                <input class="form-control" type="text" v-model="item.Memo">
+                </div>
+        </div>
+    </br>
+        <button id="Prevcount" class="btn btn-success">
+                上一筆
+            </button>
+        <button id="Nextcount" class="btn btn-success">
+                下一筆
+            </button>
+    </div>
+ 
+</body>
+ 
+</html>
